@@ -14,7 +14,8 @@
     package.json        --> for npm
     public/             --> all of the files to be used in on the client side
       css/              --> css files
-        app.css         --> default stylesheet
+        app.css             --> default stylesheet
+        bootstrap.min.css   --> bootstrap stylesheet
       img/              --> image files
       js/               --> javascript files
         app.js          --> declare top-level app module

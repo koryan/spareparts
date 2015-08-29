@@ -101,9 +101,8 @@ app.get('/logout', function(req, res){
 app.get('/partials/:name', routes.partials);
 
 // JSON API
-app.get('/api/name', api.name);
-app.post('/api/getUsersListS', api.getUsersListS)
-app.post('/api/getSummaryS', api.getSummaryS)
+app.post('/api/getUsersListS', auth.checkAdmin, api.getUsersListS)
+app.post('/api/getSummaryS', auth.checkAdmin, api.getSummaryS)
 app.post('/api/login', api.login)
 
 

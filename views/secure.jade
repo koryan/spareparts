@@ -1,22 +1,14 @@
 extends layout
 
-block body
-	header
-		a(href='/' class='logo') Spareparts
-		logInfo
-			name #{user.login}			 	
-			lastLogin #{user.lastLogin}
-			a(href="/logout") Выход
-	content(ng-controller='SecureCtrl')		
+block content	
+	div(ng-controller='SecureCtrl')		
 		p secure
 		div(ng-view)
-	footer
-		
 
-	script(src='js/lib/angular/angular.js')
-	script(src='js/app.js')
-	script(src='js/services.js')
-	script(src='js/controllers.js')
-	script(src='js/filters.js')
-	script(src='js/directives.js')
-	script(src='js/angular-ui.js')
+script(src='js/lib/angular/angular.js')
+script(src='js/app.js')
+script(src='js/services.js')
+script(src='js/controllers.js')
+script(src='js/filters.js')
+script(src='js/directives.js')
+script(src='js/angular-ui.js')

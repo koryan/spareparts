@@ -1,12 +1,9 @@
 extends layout
 
-block body
-	header
-		a(href='/' class='logo') Spareparts
-	content
+block content
 	- var text = (isAdmin)?"администратор":"пользователь"
-		center
-			p Вы не авторизованный 
-				span= text
-			a(href="/")
-				img(src='images/401.png')
+	center
+		p Вы не авторизованный 
+			span= text
+		a(href="/")
+			img(src='images/401.png')

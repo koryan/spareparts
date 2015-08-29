@@ -29,9 +29,9 @@ login form table tr.error{display:none;color:red;}
 
 
 header{display:block;border-bottom:1px solid black;margin-bottom:10px;}
-header>logInfo,header>a.logo{display:inline-block;width:50%;vertical-align: top}
-header>a.logo{font-size:120%;font-style:italic;color:black;}
-header>a.logo:hover{color:grey;}
+header>logInfo,header>div{display:inline-block;width:50%;vertical-align: top}
+header>div>a{font-size:120%;font-style:italic;color:black;}
+header>div>a:hover{color:grey;}
 header>logInfo{text-align: right;font-style:italic;}
 header>logInfo>name{font-weight: bold}
 header>logInfo>lastlogin{margin-right:30px;}

@@ -1,8 +1,19 @@
 html
-  head 
-    meta(charset='utf8')
-    base(href='/')
-    title Spareparts
-    link(rel='stylesheet', href='/css/bootstrap.min.css')
-    link(rel='stylesheet', href='/css/app.css') 
-  block body
+	head 
+		meta(charset='utf8')
+		base(href='/')
+		title Spareparts
+		link(rel='stylesheet', href='/css/bootstrap.min.css')
+		link(rel='stylesheet', href='/css/app.css') 
+	body
+		header
+			div
+				a(href='/') Spareparts
+			if user
+				logInfo
+					name #{user.login}			 	
+					lastLogin #{user.lastLogin}
+					a(href="/logout") Выход
+		content
+			block content
+		footer
