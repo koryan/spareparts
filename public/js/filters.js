@@ -8,3 +8,9 @@ angular.module('myApp.filters', []).
       return String(text).replace(/\%VERSION\%/mg, version);
     };
   });
+angular.module('adminApp.filters', []).
+  filter('xmlSuxess', function (version) {
+    return function (bool) {
+      return bool ? 'Ok':'Fail';
+    };
+  });

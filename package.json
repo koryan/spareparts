@@ -1,13 +1,18 @@
 {
-  "name": "application-name",
+  "name": "v2",
   "version": "0.0.1",
-  "private": true,
   "dependencies": {
     "body-parser": "^1.0.2",
-    "error-handler": "^0.1.4",
+    "errorhandler": "~1.4.2",
     "express": "~4.1.1",
-    "jade": "~0.31.2",
+    "jade": "~1.11.0",
     "method-override": "^1.0.0",
-    "morgan": "^1.0.0"
+    "morgan": "^1.0.0",
+    "intel": "~1.0.0",
+    "xml2json":"*",
+    "request":"*",
+    "express-riak":"~0.1.0",
+    "connect-riak-sessions":"~0.0.3",
+    "moment":"~2.10.6"
   }
 }

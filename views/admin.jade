@@ -1,0 +1,29 @@
+html
+	head
+		meta(charset='utf8')		
+		title Spareparts admin
+		link(rel='stylesheet', href='../css/app.css')
+		link(rel='stylesheet', href='../css/bootstrap.min.css')
+		base(href='/admin/')
+body(ng-app="adminApp")
+	header
+		a(href='/admin/' class='logo') Spareparts admin panel
+		logInfo
+			a(href="/logout") Выход
+
+	content(ng-controller='AdminCtrl').
+		
+		<ul class="adminMenu btn-group"><li class="btn btn-primary" ng-repeat='menuItem in mainMenu'><a href="{{menuItem[1]}}" >{{menuItem[0]}}</a></li>
+		</ul>
+		<div ng-view></div>
+	footer
+	
+
+	<script src='../js/lib/angular/angular.js'></script>
+
+	<script src='../js/admin.js'></script>
+	<script src='../js/services.js'></script>
+	<script src='../js/controllers.js'></script>
+	<script src='../js/filters.js'></script>
+	<script src='../js/directives.js'></script>
+script(src='../js/angular-ui.js')

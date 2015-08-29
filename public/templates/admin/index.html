@@ -1,0 +1,19 @@
+<dl class='summary'>
+	<dt>Пользователей всего</dt>
+		<dd>{{summary.usersNum}}</dd>
+	<dt>Последний запрос</dt>
+		<dd>
+			<p><b>Дата</b>{{summary.lastQuery.date}}</p>
+			<p><b>Пользователь</b>{{summary.lastQuery.user}}</p>
+			<p><b>Ip</b>{{summary.lastQuery.ip}}</p>
+		</dd>	
+	<dt>Адреса</dt>
+		<dd>
+			<input type="text" ng-repeat="address in summary.addresses" value="{{address}}" />
+		</dd>
+	<dt>XML</dt>
+		<dd>
+			<p><b>Статус</b>{{summary.xmlStatus.success}}</p>
+			<p><b>Дата</b>{{summary.xmlStatus.datetime}}</p>
+		</dd>
+</dl>

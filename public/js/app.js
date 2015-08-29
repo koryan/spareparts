@@ -6,10 +6,19 @@ angular.module('myApp', [
   'myApp.controllers',
   'myApp.filters',
   'myApp.services',
-  'myApp.directives'
+  'myApp.directives',
+  'ui.bootstrap'
 ]).
 config(function ($routeProvider, $locationProvider) {
   $routeProvider.
+    when('/', {
+      templateUrl: 'templates/index.html',
+      controller: 'MyCtrl1'
+    }).
+    when('/secure', {
+      templateUrl: 'templates/secure.html'
+    }).
+
     when('/view1', {
       templateUrl: 'partials/partial1',
       controller: 'MyCtrl1'
@@ -19,7 +28,8 @@ config(function ($routeProvider, $locationProvider) {
       controller: 'MyCtrl2'
     }).
     otherwise({
-      redirectTo: '/view1'
+      templateUrl: 'templates/404.html',
+      //redirectTo: '/view1'
     });
 
   $locationProvider.html5Mode(true);

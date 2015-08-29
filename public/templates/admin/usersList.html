@@ -1,0 +1,21 @@
+<a href="#"> Добавить пользователя</a>
+<table class="usersList">
+	<thead>
+		<tr>
+			<td>Логин</td>
+			<td>Организация</td>
+			<td>ФИО</td>
+			<td>ip</td>
+			<td></td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat='user in usersList'>
+			<td>{{user.name}}</td>
+			<td>{{user.org}}</td>
+			<td>{{user.fio}}</td>
+			<td>{{user.ip}}</td>
+			<td><a href="#">del</a></td>
+		</tr>
+	</tbody>
+</table>	

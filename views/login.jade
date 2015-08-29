@@ -1,0 +1,22 @@
+extends layout
+
+block body
+	script(src='/js/jquery-2.1.4.min.js')
+	script(src='/js/login.js')
+	login.
+		<form id="form" class="login">
+			<table>
+				<tr>
+					<td>Логин</td>
+					<td><input type="text" id="login" /></td>
+				</tr>
+				<tr>
+					<td>Пароль</td>
+					<td><input type="text" id="password" /></td>
+				</tr>
+				<tr>					
+					<td colspan="2"><input class='btn btn-primary' type="submit" value="Войти" /></td>
+				</tr>
+				<tr class='error'><td colspan="2"></td></tr>
+			</table>
+		</form>		
