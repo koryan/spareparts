@@ -1,0 +1,34 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{userAction[0]}} пользователя</h3>
+</div>
+<div class="modal-body">
+	<form novalidate name='editUser'>
+	<table class='userEdit'>
+		<tr>
+			<td>Логин</td>
+			<td><input ng-model='user.login' required /></td>
+		</tr>
+		<tr>
+			<td>Пароль</td>
+			<td><input ng-model='user.password' required /></td>
+		</tr>
+		<tr>
+			<td>Подтверждение пароля</td>
+			<td><input ng-model='user.password2' required /></td>
+		</tr>
+		<tr>
+			<td>ФИО</td>
+			<td><input ng-model='user.fio' required /></td>
+		</tr>
+		<tr>
+			<td>Допустимые&nbsp;ip<span>спиcок, разделённый символом &laquo;;&raquo;</span></td>
+			<td><input ng-model='user.ip' required ng-pattern="/^(?:\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3};?)+$/" /></td>
+		</tr>    	
+    </table>
+    <p class='error'>{{err}}</p>
+    </form>
+</div>
+<div class="modal-footer">
+    <button ng-show='editUser.$valid' class="btn btn-primary" type="button" ng-click="ok()">{{userAction[1]}}</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Отменить</button>
+</div>

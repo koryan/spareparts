@@ -1,21 +1,22 @@
-<a href="#"> Добавить пользователя</a>
+<input type='button' ng-click="openAddUserModal()" class='addUser btn btn-success btn-sm' value='Добавить пользователя' /> 
 <table class="usersList">
 	<thead>
 		<tr>
 			<td>Логин</td>
-			<td>Организация</td>
 			<td>ФИО</td>
 			<td>ip</td>
 			<td></td>
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat='user in usersList'>
-			<td>{{user.name}}</td>
-			<td>{{user.org}}</td>
+		<tr ng-repeat="user in usersList | orderBy:'login'">
+			<td>{{user.login}}</td>
 			<td>{{user.fio}}</td>
 			<td>{{user.ip}}</td>
-			<td><a href="#">del</a></td>
+			<td>
+				<button class='del btn btn-danger btn-xs' ng-click="delUser(user.login)">del</button>
+				<button class='edit btn btn-info btn-xs' ng-click="openEditUserModal(user)">edit</button>
+			</td>
 		</tr>
 	</tbody>
 </table>	

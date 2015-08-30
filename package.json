@@ -11,8 +11,9 @@
     "intel": "~1.0.0",
     "xml2json":"*",
     "request":"*",
-    "express-riak":"~0.1.0",
+    "basho-riak-client":"~1.5.1",
     "connect-riak-sessions":"~0.0.3",
-    "moment":"~2.10.6"
+    "moment":"~2.10.6",
+    "riak-js":"~1.1.0"
   }
 }

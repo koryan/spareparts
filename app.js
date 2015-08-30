@@ -15,16 +15,9 @@ var express = require('express'),
 	path = require('path'),
 	auth = require('./middleware/auth'),
 	session = require("express-session");
-	
-
-
 
 var app = module.exports = express();
 var riakStore = require('connect-riak-sessions')(session);
-
-
-
-/**
 
 
 /**
@@ -54,6 +47,10 @@ app.use(session({
   secret: 'keyboard cat'
 }));
 
+// app.use(function(req, res, next){
+// 	req.riakClient = new Riak.Client(['localhost:8098']);
+// 	next()
+// })
 
 
 
@@ -104,12 +101,14 @@ app.get('/partials/:name', routes.partials);
 app.post('/api/getUsersListS', auth.checkAdmin, api.getUsersListS)
 app.post('/api/getSummaryS', auth.checkAdmin, api.getSummaryS)
 app.post('/api/login', api.login)
+app.post('/api/userCreate', auth.checkAdmin, api.userCreate)
+app.post('/api/userRemove', auth.checkAdmin, api.userRemove)
 
 
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.p404);
 
-
+console.log("....................the end")
 /**
  * Start Server
  */

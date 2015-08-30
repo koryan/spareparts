@@ -8,7 +8,8 @@ html{height:100%;}
 body{padding:10px;height:100%;}
 table.usersList{border:1px solid gray;border-collapse: collapse;border-radius: 10px;}
 table.usersList td{border:1px solid gray;padding: 1px 3px}
-table.usersList thead td{text-align: center;}
+table.usersList thead td{text-align: center;font-weight: bold;}
+table.usersList button{padding-top:0px;padding-bottom: 0px;font-size:70%;}
 
 ul.adminMenu{padding:0px;margin:0px 0px 15px 0px;}
 
@@ -36,7 +37,20 @@ header>logInfo{text-align: right;font-style:italic;}
 header>logInfo>name{font-weight: bold}
 header>logInfo>lastlogin{margin-right:30px;}
 
+input.addUser{margin-bottom:10px;}
+
+table.userEdit{width:100%}
+table.userEdit tr>td:nth-child(1){padding-right:15px;}
+table.userEdit tr>td:nth-child(2){text-align:right;}
+table.userEdit tr>td:nth-child(2) input{width:290px}
+table.userEdit td>span{white-space:nowrap;color:grey;font-style: italic;font-size: 90%;margin-left:4px;}
+table.userEdit td>span:before{content:"("}
+table.userEdit td>span:after{content:")"}
 
 center{margin:80px auto 0px;display:block;}
 center>p{margin-bottom:15px !important;font-weight: bold;font-size: 200%}
 center>p>span{font-size: inherit}
+
+.modal-dialog {width: 700px !important;}
+.modal-dialog p.error{color:red;}
+

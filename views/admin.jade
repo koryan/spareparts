@@ -7,14 +7,16 @@ html
 		base(href='/admin/')
 body(ng-app="adminApp")
 	header
-		a(href='/admin/' class='logo') Spareparts admin panel
+		div
+			a(href='/admin/' class='logo') Spareparts admin panel
 		logInfo
 			a(href="/logout") Выход
 
 	content(ng-controller='AdminCtrl').
 		
-		<ul class="adminMenu btn-group"><li class="btn btn-primary" ng-repeat='menuItem in mainMenu'><a href="{{menuItem[1]}}" >{{menuItem[0]}}</a></li>
-		</ul>
+		<ul class="adminMenu btn-group">
+			<li class="btn btn-primary" ng-model="$parent.path" ng-repeat='menuItem in mainMenu' btn-radio="'{{menuItem[0]}}'">{{menuItem[1]}}</li>
+		</ul>		
 		<div ng-view></div>
 	footer
 	
