@@ -1,5 +1,6 @@
-<form>
+<p ng-show="lastTry" class='lastXMLtry'>Последняя загрузка: <span class='try{{lastTry.valid}}'>{{lastTry.time}}</span></p>
+<form class='xmlLoad' action="/api/loadXML" enctype="multipart/form-data" method="post">
 	Выберите файл для загрузки
-	<input type="file">
-	<input type="button" class="btn btn-default" value="Загрузить">
+	<input type="file" name="xml">
+	<input type="submit" class="btn btn-default" value="Загрузить">
 </form>

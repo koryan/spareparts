@@ -9,8 +9,8 @@ angular.module('myApp.filters', []).
     };
   });
 angular.module('adminApp.filters', []).
-  filter('xmlSuxess', function (version) {
+  filter('xmlTryStatus', function (version) {
     return function (bool) {
-      return bool ? 'Ok':'Fail';
+      return bool ? 'успешно':'сломалося';
     };
   });

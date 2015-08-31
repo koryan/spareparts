@@ -41,6 +41,19 @@ var get = function(login, cb){
 	})
 }
 
+var getList = function(cb){
+	db.getAll('users', function(err, data){
+		for(userI in data){
+			delete data[userI].password
+		}
+		if(err){
+			cb(err, data);
+			return;
+		}
+		cb(null, data)
+	})  
+}
+
 module.exports.get = get
 
 module.exports.create = function(newUser, cb){
@@ -70,27 +83,14 @@ module.exports.del = function(login, cb){
     });	
 }
 
-module.exports.switchBlock = function(req, res, cb){
-	//
+module.exports.count = function(cb){
+	getList(function(err, usersList){
+		if(err){cb(err);return;}
+		cb(null, usersList.length)
+	})
 }
 
-module.exports.changePassword = function(req, res, cb){
-	//
-}
-
-module.exports.getList = function(cb){
-	db.getAll('users', function(err, data){
-		for(userI in data){
-			delete data[userI].password
-		}
-		if(err){
-			cb(err, data);
-			return;
-		}
-		console.log(data)
-		cb(null, data)
-	})  
-}
+module.exports.getList = getList;
 
 
 

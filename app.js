@@ -14,11 +14,22 @@ var express = require('express'),
 	//middleware = require('./middleware')(app, express),
 	path = require('path'),
 	auth = require('./middleware/auth'),
+	multer = require('multer'),	
+	conf = require('./conf.json'),
 	session = require("express-session");
+
 
 var app = module.exports = express();
 var riakStore = require('connect-riak-sessions')(session);
-
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, conf.xmlFolder)
+  },
+  filename: function (req, file, cb) {
+    cb(null, conf.xmlFileName)
+  }
+})
+var upload = multer({ storage: storage })
 
 /**
  * Configuration
@@ -103,6 +114,8 @@ app.post('/api/getSummaryS', auth.checkAdmin, api.getSummaryS)
 app.post('/api/login', api.login)
 app.post('/api/userCreate', auth.checkAdmin, api.userCreate)
 app.post('/api/userRemove', auth.checkAdmin, api.userRemove)
+app.post('/api/loadXML', [auth.checkAdmin, upload.single('xml')], api.processXML)
+app.post('/api/getXmlLastTry', api.getXmlLastTry)
 
 
 // redirect all others to the index (HTML5 history)

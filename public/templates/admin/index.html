@@ -13,7 +13,7 @@
 		</dd>
 	<dt>XML</dt>
 		<dd>
-			<p><b>Статус</b>{{summary.xmlStatus.success}}</p>
-			<p><b>Дата</b>{{summary.xmlStatus.datetime}}</p>
+			<p><b>Статус</b><span class='try{{summary.xmlStatus.success}}'>{{summary.xmlStatus.success | xmlTryStatus}}</span></p>
+			<p><b>Дата</b><span class='try{{summary.xmlStatus.success}}'>{{summary.xmlStatus.datetime}}</span></p>
 		</dd>
 </dl>

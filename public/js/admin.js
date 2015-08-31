@@ -26,7 +26,7 @@ config(function ($routeProvider, $locationProvider) {
     }).
     when('/xml', {
       templateUrl: '../templates/admin/xml.html',
-      controller: 'LogsCtrl'
+      controller: 'XmlCtrl'
     }).
     otherwise({
       templateUrl: '../templates/404.html',

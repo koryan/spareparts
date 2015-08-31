@@ -54,3 +54,7 @@ center>p>span{font-size: inherit}
 .modal-dialog {width: 700px !important;}
 .modal-dialog p.error{color:red;}
 
+p.lastXMLtry{margin-bottom:5px !important;}
+
+span.tryfalse{color:red;}
+span.trytrue{color:green;}

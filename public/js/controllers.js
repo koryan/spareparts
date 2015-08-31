@@ -45,6 +45,12 @@ angular.module('adminApp.controllers', []).
 		// write Ctrl here
 
 	}).
+	controller('XmlCtrl', function ($scope, $http) {
+		$http.post("/api/getXmlLastTry").success(function(data) {				
+			$scope.lastTry = data;
+		});
+
+	}).	
 	controller('EditUserCtrl', function ($scope, $modalInstance, $http, user) {
 		$scope.userAction = ["Редактирование", "Сохранить"];
 		$scope.user = user

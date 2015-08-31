@@ -1,4 +1,6 @@
 var user = require('../models/user');
+var xml = require('../models/xml')
+var async = require('async')
 
 exports.name = function (req, res) {
   res.json({
@@ -6,23 +8,39 @@ exports.name = function (req, res) {
   });
 };
 
-exports.getSummaryS = function (req, res) {
-  res.json({
-    usersNum: 100500,
-    lastQuery: {
-    	date: '12.02.2015', 
-    	user: 'Darth Vader',
-    	ip: '192.0.0.1'
-    },
-    addresses: [
-    	"http://yandex.ru",
-    	"http://google.com"
-    ],
-    xmlStatus:{
-    	success: true,
-    	datetime: "15.04.2005 12:34"
-    }
-  });
+exports.getSummaryS = function (req, res, next) {
+	async.parallel([
+	    function(callback){
+	    	user.count(callback)
+	    },
+	    function(callback){
+	    	xml.getLastTry(callback)
+	    },
+	],
+	function(err, data, asd){
+		if(err){return next(err);}
+		res.json({
+		    usersNum: data[0],
+		    lastQuery: {
+		    	date: '12.02.2015', 
+		    	user: 'Darth Vader',
+		    	ip: '192.0.0.1'
+		    },
+		    addresses: [
+		    	"http://yandex.ru",
+		    	"http://google.com"
+		    ],
+		    xmlStatus:{
+		    	success: data[1].valid,
+		    	datetime: data[1].time
+		    }
+		  })
+	})		
+  
+
+
+
+  
 };
 
 exports.userCreate = function(req, res, next){
@@ -68,3 +86,17 @@ exports.login = function (req, res) {
 		
 	})
 };
+
+exports.processXML = function(req, res, next){
+	xml.process(function(err){
+		if(err){return next(err)}
+		res.redirect('back');
+	})	
+}
+
+exports.getXmlLastTry = function(req, res, next){
+	xml.getLastTry(function(err, data){
+		if(err){return next(err)}
+		res.send(data)
+	})	
+}

@@ -14,6 +14,7 @@
     "basho-riak-client":"~1.5.1",
     "connect-riak-sessions":"~0.0.3",
     "moment":"~2.10.6",
-    "riak-js":"~1.1.0"
+    "riak-js":"~1.1.0",
+    "multer":"~1.0.3"
   }
 }

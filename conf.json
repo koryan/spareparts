@@ -1,3 +1,9 @@
 {
-	"checkIpOnLogin":false
+	"checkIpOnLogin":false,
+	"xmlFolder": "xml",
+	"xmlFileName": "xml.xml",
+	"riakBuckets":{
+		"xml":"xml",
+		"lastXml":"lastXml"
+	}
 }
