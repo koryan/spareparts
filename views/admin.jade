@@ -6,6 +6,8 @@ html
 		link(rel='stylesheet', href='../css/bootstrap.min.css')
 		base(href='/admin/')
 body(ng-app="adminApp")
+	loader
+		img(src="../images/loader.png")
 	header
 		div
 			a(href='/admin/' class='logo') Spareparts admin panel
@@ -20,7 +22,7 @@ body(ng-app="adminApp")
 		<div ng-view></div>
 	footer
 	
-
+	<script src='../js/jquery-2.1.4.min.js'></script>
 	<script src='../js/lib/angular/angular.js'></script>
 
 	<script src='../js/admin.js'></script>

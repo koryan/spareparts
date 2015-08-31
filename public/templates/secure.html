@@ -1,1 +1,50 @@
-secure.html
+<query ng-show="!result">
+	<inputs>		
+		<p>Артикулы</p>
+		<!-- TODO: родить человеческий способ вывода этих ебучих инпутов-->
+		<input ng-model="articulsArr[0]">
+		<input ng-model="articulsArr[1]">
+		<input ng-model="articulsArr[2]">
+		<input ng-model="articulsArr[3]">
+		<input ng-model="articulsArr[4]">
+		<input ng-model="articulsArr[5]">
+		<input ng-model="articulsArr[6]">
+		<input ng-model="articulsArr[7]">
+		<input ng-model="articulsArr[8]">
+		<input ng-model="articulsArr[9]">	
+		<button class='btn btn-default' ng-click='articulsSearch()'>Поиск</button>
+	</inputs>
+	<form class='articulsLoad' action="/api/loadArticuls" enctype="multipart/form-data" method="post">
+		Выберите файл для загрузки
+		<input type="file" name="articuls">
+		<input type="submit" ng-click='articulsLoadStart()' class="btn btn-default" value="Загрузить">
+	</form>
+
+</query>
+<result ng-show="result">
+	<table class='result'>
+		<thead>
+			<tr>
+				<td>№</td>
+				<td>Артикул</td>
+				<td>Наименование товара</td>
+				<td>Цена розничная</td>
+				<td>Свободный<br>остаток</td>
+				<td>Кол-во З/Ч</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="(n,elem) in result">
+				<td>{{n}}</td>
+				<td>{{elem.id_nom}}</td>
+				<td>{{elem.name_nom}}</td>
+				<td>{{elem.price}}</td>
+				<td>{{elem.kol}}</td>
+				<td><input type='text' /></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<input type='text' placeholder='Серийный номер ТС' ng-model='serial'>
+	<button ng-show='serial' ng-click='sendQuery()'>Отправить запрос</button>
+</result>

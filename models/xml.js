@@ -16,7 +16,7 @@ var writeProcessResult = function(result, cb){
 	if(result){
 		async.parallel([
 		    function(callback){
-		    	db.save(conf.riakBuckets.xml, time, JSON.stringify(result), callback)
+		    	db.save(conf.riakBuckets.xml, time, result, callback)
 		    },
 		    function(callback){
 		    	db.save(conf.riakBuckets.xml, 'lastGoodTry', {time:time}, callback)
@@ -38,7 +38,7 @@ module.exports.process = function (cb) {
 		if (err){cb(err);return;}
 		try {
 	        json = xml2json.toJson(data);
-			writeProcessResult(json, cb)
+			writeProcessResult(data, cb)
 			return;	        
 	    } catch (e) {
 	    	console.log("ERROR", e)
@@ -72,31 +72,61 @@ module.exports.getLastTry = function(cb){
 	    	cb(null, {time:time, valid:true})
 	    })	    
    	})
-	
-	  
-	
 }
 
-module.exports.get = function(cb){
-
-	async.waterfall([
-	    function(callback) {
-	    	db.get(conf.riakBuckets.xml, 'lastGoodTry', callback)
-	    },
-	    function(key, callback) {
-	        db.get(conf.riakBuckets.xml, key.time, callback)
-	    },
-	], function (err, result) {
-		
-	    if(err){
-	    	if(err.notFound){
+var get = function(cb){
+	db.get(conf.riakBuckets.xml, 'lastGoodTry', function(err, data){
+   		if(err){
+   			if(err.notFound){
 	    		cb(null, null)
 	    		return;
 	    	}	
-	    	console.log("Err on getting xml", err);
-	    	cb(err);
-	    	return;
-	    }
-	    cb(null, {time:key, data: JSON.parse(result)})
-	});	
+   			cb(err);
+   			return;
+   		}
+	    time = moment(data.time).format("DD.MM.YYYY HH:mm:ss")
+	    db.get(conf.riakBuckets.xml, data.time, function(err, data2){
+	    	if(err){	
+	    		if(err.notFound){
+	    			console.log("not found lastGoodTry")
+		    		cb(null, null)
+		    		return;
+		    	}	
+	    	}
+	    	cb(null, data2)
+	    })	    
+   	})
+}
+
+module.exports.get = get;
+
+module.exports.articulsSearch = function(articuls, cb){
+	
+	get(function(err, result){
+		if(err){
+			console.log('ERROR IN GETTING BLOB', err)
+			cb(err)
+			return;
+		}
+		// Пример объекта 
+		// { id_nom: 3120,
+		//   name_nom: 'round steel bar EN10060-120x6000M-C45',
+		//   price: 0,
+		//   kol: 0 }
+
+		var json = JSON.parse(JSON.parse(result))
+		//var i =0;
+		var result = [];
+		//console.log(Object.keys(json.Data.str))
+		for(j in json.Data.str){
+			var elem = json.Data.str[j];			
+			if(articuls.indexOf(elem.id_nom.toString()) !== -1){
+				result.push(elem)
+			}	
+			//if(i > 10)		break;
+			//i++;
+		}
+		//console.log()
+		cb(null, result)
+	})
 }

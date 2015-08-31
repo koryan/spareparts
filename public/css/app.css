@@ -58,3 +58,20 @@ p.lastXMLtry{margin-bottom:5px !important;}
 
 span.tryfalse{color:red;}
 span.trytrue{color:green;}
+
+loader{height:100%;position:fixed;background:rgba(0,0,0,.6);display:none;width:100%;left:0px;top:0px;z-index: 1001;}
+loader>img{display:block;top:45%;left:45%;position:absolute;z-index: 1002;}
+
+.secure inputs{width:230px;border:1px solid gray;border-radius:10px;padding:10px;display:inline-block}
+.secure inputs>button{width:98%;margin-top:10px;}
+.secure form.articulsLoad{display:inline-block;vertical-align:top;margin-left:20px;display: none;}
+.secure form.articulsLoad .btn{margin-top:10px;}
+.secure table.result{border: 1px solid rgba(0,0,255,.7);border-collapse:collapse;}
+.secure table.result td{border: 1px solid rgba(0,0,255,.7);padding:0px 4px;}
+.secure table.result thead td{font-weight:bold;text-align:center;border-bottom:2px solid rgba(0,0,255,.7);;}
+.secure table.result tbody tr:nth-child(odd){background-color: rgba(0,0,255,.1);}
+.secure table.result tbody tr td{text-align:right;}
+.secure table.result tbody tr td:nth-child(1){text-align:center;}
+.secure table.result tbody tr td:nth-child(3){text-align:left;}
+.secure table.result tbody tr td:nth-child(6){text-align:center;}
+.secure table.result input{width:40px;text-align:right;};

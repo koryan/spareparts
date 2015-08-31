@@ -3,29 +3,21 @@
 /* Controllers */
 
 angular.module('myApp.controllers', []).
-	controller('AppCtrl', function ($scope, $http) {
-
-		$http({
-			method: 'GET',
-			url: '/api/name'
-		}).
-		success(function (data, status, headers, config) {
-			$scope.name = data.name;
-		}).
-		error(function (data, status, headers, config) {
-			$scope.name = 'Error!';
-		});
-
-	}).
-	controller('MyCtrl1', function ($scope) {
-		// write Ctrl here
-		alert("zxccv")
-
-	}).
-	controller('SecureCtrl', function ($scope) {
-		// write Ctrl here
-		$scope.name = "user";
-	});
+	controller('SecureCtrl', function ($scope, $http) {
+		$scope.articulsArr = [];
+		$scope.articulsSearch = function(){
+			$http.post("/api/articulsSearch", {articuls: $scope.articulsArr}).success(function(data) {
+				$scope.result = data
+			});
+			
+		}
+		$scope.articulsLoadStart = function(){
+			angular.element("loader").show();
+		}
+		$scope.sendQuery = function(){
+			alert("In next version")
+		}
+	});		
 
 angular.module('adminApp.controllers', []).
 	controller('AdminCtrl', function ($scope, $location) {
@@ -46,6 +38,10 @@ angular.module('adminApp.controllers', []).
 
 	}).
 	controller('XmlCtrl', function ($scope, $http) {
+		$scope.xmlLoadStart = function(){
+			angular.element("loader").show();
+		}
+		
 		$http.post("/api/getXmlLastTry").success(function(data) {				
 			$scope.lastTry = data;
 		});

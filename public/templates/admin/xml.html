@@ -2,5 +2,5 @@
 <form class='xmlLoad' action="/api/loadXML" enctype="multipart/form-data" method="post">
 	Выберите файл для загрузки
 	<input type="file" name="xml">
-	<input type="submit" class="btn btn-default" value="Загрузить">
+	<input type="submit" ng-click='xmlLoadStart()' class="btn btn-default" value="Загрузить">
 </form>

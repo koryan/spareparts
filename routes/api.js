@@ -100,3 +100,10 @@ exports.getXmlLastTry = function(req, res, next){
 		res.send(data)
 	})	
 }
+
+exports.articulsSearch = function(req, res, next){
+	xml.articulsSearch(req.body.articuls, function(err, result){
+		if(err){return next(err)}
+		res.send(result)
+	})
+}

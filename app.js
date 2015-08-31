@@ -116,12 +116,13 @@ app.post('/api/userCreate', auth.checkAdmin, api.userCreate)
 app.post('/api/userRemove', auth.checkAdmin, api.userRemove)
 app.post('/api/loadXML', [auth.checkAdmin, upload.single('xml')], api.processXML)
 app.post('/api/getXmlLastTry', api.getXmlLastTry)
+app.post('/api/articulsSearch', api.articulsSearch)
+
 
 
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.p404);
 
-console.log("....................the end")
 /**
  * Start Server
  */
