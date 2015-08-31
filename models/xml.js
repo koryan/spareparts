@@ -114,7 +114,7 @@ module.exports.articulsSearch = function(articuls, cb){
 		//   price: 0,
 		//   kol: 0 }
 
-		var json = JSON.parse(JSON.parse(result))
+		var json = JSON.parse(result);
 		//var i =0;
 		var result = [];
 		//console.log(Object.keys(json.Data.str))
