@@ -53,7 +53,14 @@ module.exports.getLastTry = function(cb){
 	var time = undefined;
 
    	db.get(conf.riakBuckets.xml, 'lastTry', function(err, data){
-   		if(err){cb(err);return;}
+   		if(err){
+   			if(err.notFound){
+	    		cb(null, null)
+	    		return;
+	    	}	
+   			cb(err);
+   			return;
+   		}
 	    time = moment(data.time).format("DD.MM.YYYY HH:mm:ss")
 	    db.get(conf.riakBuckets.xml, data.time, function(err, data){
 	    	if(err){	
@@ -82,6 +89,10 @@ module.exports.get = function(cb){
 	], function (err, result) {
 		
 	    if(err){
+	    	if(err.notFound){
+	    		cb(null, null)
+	    		return;
+	    	}	
 	    	console.log("Err on getting xml", err);
 	    	cb(err);
 	    	return;
