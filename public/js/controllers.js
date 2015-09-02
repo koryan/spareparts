@@ -6,7 +6,9 @@ angular.module('myApp.controllers', []).
 	controller('SecureCtrl', function ($scope, $http) {
 		$scope.articulsArr = [];
 		$scope.articulsSearch = function(){
+			//angular.element("loader").show();
 			$http.post("/api/articulsSearch", {articuls: $scope.articulsArr}).success(function(data) {
+				//angular.element("loader").hide();
 				$scope.result = data
 			});
 			
@@ -58,7 +60,7 @@ angular.module('adminApp.controllers', []).
 				return;
 			}	
 
-			$http.post("/api/userCreate", {newUser:$scope.user}).success(function(data) {				
+			$http.post("/api/userEdit", {user:$scope.user}).success(function(data) {				
 				$modalInstance.close($scope.user);
 			});
 
@@ -99,11 +101,19 @@ angular.module('adminApp.controllers', []).
 	controller('UsersListCtrl', function ($scope, $http, $modal) {
 		var showUsersList = function(){
 			$http.post("/api/getUsersListS").success(function(data) {
-				$scope.usersList = data
+				$scope.usersList = data				
 			});
 		}
-		
-		showUsersList();
+				
+
+		$scope.switchUser = function(user){
+			if(user.isBlocked){
+				delete user.isBlocked
+			}else user.isBlocked = true;
+			$http.post("/api/userEdit", {user:user}).success(function(data) {
+				showUsersList();
+			});
+		}
 
 		$scope.openAddUserModal = function(){
 			$modal.open({	
@@ -111,8 +121,7 @@ angular.module('adminApp.controllers', []).
 				controller: 'AddUserCtrl'
 			}).result.then(function () {showUsersList();})
 		}
-		$scope.openEditUserModal = function(user){
-			console.log(user)
+		$scope.openEditUserModal = function(user){			
 			$modal.open({	
 				templateUrl: '/templates/admin/editUser.html',
 				controller: 'EditUserCtrl',
@@ -131,4 +140,5 @@ angular.module('adminApp.controllers', []).
 			}
 		}
 
+		showUsersList();
 	});

@@ -1,8 +1,7 @@
-var moment = require("moment")
-var	db = require('riak-js')();
+var moment = require("moment");
 var conf = require('../conf.json');
+var	db = require('riak-js')({host: conf.riak.host, port: conf.riak.port});
 var xml2json = require('xml2json');
-var	db = require('riak-js')();
 var fs = require('fs');
 var async = require('async')
 
@@ -10,7 +9,7 @@ var async = require('async')
 
 var writeProcessResult = function(result, cb){
 	var time = new Date().getTime();
-	console.log("writing xml process results")
+
 	db.save(conf.riakBuckets.xml, 'lastTry', {time:time})
 
 	if(result){
@@ -33,12 +32,12 @@ var writeProcessResult = function(result, cb){
 
 module.exports.process = function (cb) {
 	console.log("alive")	
-	fs.readFile(conf.xmlFolder+"/"+conf.xmlFileName, function (err, data) {		
+	fs.readFile(conf.uploadFolder+"/"+conf.xmlFileName, function (err, data) {		
 		var json = {}
 		if (err){cb(err);return;}
 		try {
 	        json = xml2json.toJson(data);
-			writeProcessResult(data, cb)
+			writeProcessResult(json, cb)
 			return;	        
 	    } catch (e) {
 	    	console.log("ERROR", e)
@@ -113,6 +112,9 @@ module.exports.articulsSearch = function(articuls, cb){
 		//   name_nom: 'round steel bar EN10060-120x6000M-C45',
 		//   price: 0,
 		//   kol: 0 }
+		//console.log(result)
+		console.log("typeof result", typeof result)
+		
 
 		var json = JSON.parse(result);
 		//var i =0;

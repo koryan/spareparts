@@ -4,7 +4,7 @@
 <div class="modal-body">
 	<form novalidate name='editUser'>
 	<table class='userEdit'>
-		<tr>
+		<tr ng-show="!user">
 			<td>Логин</td>
 			<td><input ng-model='user.login' required /></td>
 		</tr>

@@ -12,10 +12,15 @@
 		<input ng-model="articulsArr[7]">
 		<input ng-model="articulsArr[8]">
 		<input ng-model="articulsArr[9]">	
-		<button class='btn btn-default' ng-click='articulsSearch()'>Поиск</button>
+		<button class='btn btn-default' ng-click='articulsSearch(articulsArr)'>Поиск</button>
 	</inputs>
+	<plainArticuls>
+		<p>По одному в строке</p>
+		<textarea ng-model="plainArticuls"></textarea>
+		<button class='btn btn-default' ng-click='articulsSearch(plainArticuls)'>Поиск</button>
+	</plainArticuls>
 	<form class='articulsLoad' action="/api/loadArticuls" enctype="multipart/form-data" method="post">
-		Выберите файл для загрузки
+		Выберите файл для загрузки (в одному артикулу в строке фаила)
 		<input type="file" name="articuls">
 		<input type="submit" ng-click='articulsLoadStart()' class="btn btn-default" value="Загрузить">
 	</form>

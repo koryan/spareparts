@@ -1,9 +1,21 @@
 {
-	"checkIpOnLogin":false,
-	"xmlFolder": "xml",
+	"applicationPort":3000,
+	"riak":{
+		"host":"localhost",
+		"port":8098
+	},
+	"checkIpOnLogin": true,
+	"uploadFolder": "upload",
 	"xmlFileName": "xml.xml",
+	"articulsFileName": "articuls",
 	"riakBuckets":{
 		"xml":"xml",
-		"lastXml":"lastXml"
-	}
+		"users":"users",
+		"sessionBucket":"app_session_bucket"
+	},
+	"admin":{
+		"login":"admin",
+		"password":"pass"
+	},
+	"mailAddresess":["koryan@mail.ru","test.ru"]
 }

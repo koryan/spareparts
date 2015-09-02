@@ -1,6 +1,7 @@
-var moment = require("moment")
-var	db = require('riak-js')();
-var conf = require('../conf.json')
+var moment = require("moment");
+var conf = require('../conf.json');
+var	db = require('riak-js')({host: conf.riak.host, port: conf.riak.port});
+
 var crypto = require('crypto');
 
 module.exports.auth = function(login, password, ip, cb){
@@ -28,7 +29,7 @@ module.exports.auth = function(login, password, ip, cb){
 }
 
 var get = function(login, cb){
-	db.get('users', login,  function(err, rslt){
+	db.get(conf.riakBuckets.users, login,  function(err, rslt){
 		if(err){
 			if(err.notFound){
 				cb(null, null);
@@ -42,7 +43,7 @@ var get = function(login, cb){
 }
 
 var getList = function(cb){
-	db.getAll('users', function(err, data){
+	db.getAll(conf.riakBuckets.users, function(err, data){
 		for(userI in data){
 			delete data[userI].password
 		}
@@ -77,8 +78,30 @@ module.exports.create = function(newUser, cb){
 	})
 }
 
+module.exports.save = function(user, cb){	
+	get(user.login,  function(err, rslt){		
+		if(err){
+			cb(err);
+			return;
+		}
+		if(!rslt){
+			cb(null, "user not exists");
+			return;
+		}
+		
+		for(key in user){
+			rslt[key] = user[key];
+		}
+
+		db.save(conf.riakBuckets.users, user.login, newUser, function(err, rslt) {
+			console.log("end saving")
+	        cb(err, rslt);
+	    });
+	})
+}
+
 module.exports.del = function(login, cb){	
-	db.remove('users', login, function(err, rslt) {
+	db.remove(conf.riakBuckets.users, login, function(err, rslt) {
         cb(err, rslt);
     });	
 }

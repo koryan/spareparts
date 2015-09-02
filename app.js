@@ -1,8 +1,3 @@
-
-/**
- * Module dependencies
- */
-
 var express = require('express'),
 	bodyParser = require('body-parser'),
 	methodOverride = require('method-override'),
@@ -23,7 +18,7 @@ var app = module.exports = express();
 var riakStore = require('connect-riak-sessions')(session);
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, conf.xmlFolder)
+    cb(null, conf.uploadFolder)
   },
   filename: function (req, file, cb) {
     cb(null, conf.xmlFileName)
@@ -36,7 +31,7 @@ var upload = multer({ storage: storage })
  */
 
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', conf.applicationPort);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(morgan('dev'));
@@ -50,10 +45,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
   store: new riakStore({
-    bucket: 'app_session_bucket',
+    bucket: conf.riakBuckets.app_session_bucket,
     scheme: 'http',
-    host: 'localhost',
-    port: 8098,
+    host: conf.riak.host,
+    port: conf.riak.port,
   }),
   secret: 'keyboard cat'
 }));
@@ -114,9 +109,13 @@ app.post('/api/getSummaryS', auth.checkAdmin, api.getSummaryS)
 app.post('/api/login', api.login)
 app.post('/api/userCreate', auth.checkAdmin, api.userCreate)
 app.post('/api/userRemove', auth.checkAdmin, api.userRemove)
+app.post('/api/userEdit', auth.checkAdmin, api.userEdit)
 app.post('/api/loadXML', [auth.checkAdmin, upload.single('xml')], api.processXML)
+app.post('/api/loadArticuls', upload.single('articuls'), api.processArticuls)
 app.post('/api/getXmlLastTry', api.getXmlLastTry)
 app.post('/api/articulsSearch', api.articulsSearch)
+app.post('/api/sendMail', api.sendMail)
+
 
 
 

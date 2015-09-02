@@ -1,12 +1,16 @@
 var user = require('../models/user');
-var xml = require('../models/xml')
-var async = require('async')
+var xml = require('../models/xml');
+var async = require('async');
+var conf = require('../conf.json')
 
-exports.name = function (req, res) {
-  res.json({
-    name: 'Bob'
-  });
-};
+
+var articulsSearch = function(articuls, cb){
+	xml.articulsSearch(articuls, function(err, result){
+		if(err){cb(err);}
+		cb(null, result);
+	})
+}
+
 
 exports.getSummaryS = function (req, res, next) {
 	async.parallel([
@@ -19,6 +23,7 @@ exports.getSummaryS = function (req, res, next) {
 	],
 	function(err, data, asd){
 		if(err){return next(err);}
+		if(!data[1])data[1] = {};
 		res.json({
 		    usersNum: data[0],
 		    lastQuery: {
@@ -27,8 +32,7 @@ exports.getSummaryS = function (req, res, next) {
 		    	ip: '192.0.0.1'
 		    },
 		    addresses: [
-		    	"http://yandex.ru",
-		    	"http://google.com"
+		    	conf.mailAddresess
 		    ],
 		    xmlStatus:{
 		    	success: data[1].valid,
@@ -67,12 +71,22 @@ exports.userRemove = function(req, res, next){
     })
 }
 
+exports.userEdit = function(req, res, next){
+	user.save(req.body.user, function(err, data){    	
+        if(err){
+            return next(err);}
+        res.send(true)
+    })
+}
+
 exports.getUsersListS = function (req, res, next) {
     user.getList(function(err, data){
 		if(err)return next(err);
-		res.json(data)
+		res.json(data);
     })  
 };
+
+
 
 exports.login = function (req, res) {	
 	user.auth(req.body.login, req.body.password, req.connection.remoteAddress, function(err, user){
@@ -82,28 +96,43 @@ exports.login = function (req, res) {
 			req.session.user = user;
 
 			res.send(true)
-		}else{res.send(false)}
+		}else{res.send(false);}
 		
 	})
 };
 
 exports.processXML = function(req, res, next){
 	xml.process(function(err){
-		if(err){return next(err)}
+		if(err){return next(err);}
 		res.redirect('back');
 	})	
 }
 
+exports.processArticuls = function(req, res, next){
+	fs.readFile(conf.uploadFolder+"/"+conf.articulsFileName, function (err, data) {	
+		if (err){return next(err);}
+		articulsSearch(data.toString().split("\n"), function(err, result){
+			if(err){return next(err);}
+			res.send(result);
+		})
+	})
+}
+
 exports.getXmlLastTry = function(req, res, next){
 	xml.getLastTry(function(err, data){
-		if(err){return next(err)}
-		res.send(data)
+		if(err){return next(err);}
+		res.send(data);
 	})	
 }
 
+
 exports.articulsSearch = function(req, res, next){
-	xml.articulsSearch(req.body.articuls, function(err, result){
-		if(err){return next(err)}
-		res.send(result)
+	articulsSearch(req.body.articuls, function(err, result){
+		if(err){return next(err);}
+		res.send(result);
 	})
+}
+
+exports.sendMail = function(req, res, next){
+	res.send({"status":"notReady"});
 }

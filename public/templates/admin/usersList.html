@@ -14,6 +14,8 @@
 			<td>{{user.fio}}</td>
 			<td>{{user.ip}}</td>
 			<td>
+				<button class='block btn btn-danger btn-xs' ng-show="!user.blocked" ng-click="switchUser(user)">block</button>
+				<button class='unblock btn btn-danger btn-xs' ng-show="user.blocked" ng-click="switchUser(user)">unblock</button>
 				<button class='del btn btn-danger btn-xs' ng-click="delUser(user.login)">del</button>
 				<button class='edit btn btn-info btn-xs' ng-click="openEditUserModal(user)">edit</button>
 			</td>
