@@ -1,9 +1,10 @@
+var moment = require("moment");
 /*
  * GET home page.
  */
 
 exports.index = function(req, res){  
-  res.render('secure', {user:{login:req.session.user.login, lastLogin:req.session.user.lastLogin}});
+  res.render('secure', {user:{fio:req.session.user.fio, lastLogin:moment(req.session.user.lastLogin).format("DD.MM.YYYY HH:mm:ss")}});
 };
 
 exports.login = function(req, res){

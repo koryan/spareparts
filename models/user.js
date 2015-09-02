@@ -12,20 +12,20 @@ module.exports.auth = function(login, password, ip, cb){
 	else{
 		get(login, function(err, user){
 			if(err){cb(err);return;}
-			if(!user){cb();return;}
-			if(conf.checkIpOnLogin && user.ip.indexOf(ip) === -1){cb();return;}
+			if(!user){cb("notFound");return;}
+			if(conf.checkIpOnLogin && user.ip.indexOf(ip) === -1){cb("wrongIp");return;}
+			if(user.isBlocked){cb("blocked");return;}
 			if(crypto.createHash('md5').update(password).digest('hex') == user.password){
-				delete user.password;
-				cb(null, user)
+				user.lastLogin = new Date().getTime();
+				db.save(conf.riakBuckets.users, user.login, user, function(err, rslt) {
+			        delete user.password;
+					cb(null, user)
+			    });
+			    return;				
 			};
+			cb("wrongPass")
 		})
 	} 
-	// if(login == "user" && password =="pass"){		
-	// 	cb(null, {login:"Вася", lastLogin: moment().format("DD.MM.YYYY HH:mm:ss")})
-	// }else{
-	// 	//
-	// 	cb()
-	// }
 }
 
 var get = function(login, cb){
@@ -79,6 +79,7 @@ module.exports.create = function(newUser, cb){
 }
 
 module.exports.save = function(user, cb){	
+	console.log(user)
 	get(user.login,  function(err, rslt){		
 		if(err){
 			cb(err);
@@ -90,10 +91,10 @@ module.exports.save = function(user, cb){
 		}
 		
 		for(key in user){
-			rslt[key] = user[key];
+			if(user[key] !== "")rslt[key] = user[key];
 		}
 
-		db.save(conf.riakBuckets.users, user.login, newUser, function(err, rslt) {
+		db.save(conf.riakBuckets.users, user.login, rslt, function(err, rslt) {
 			console.log("end saving")
 	        cb(err, rslt);
 	    });

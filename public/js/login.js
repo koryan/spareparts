@@ -14,11 +14,30 @@ $( document ).ready(function() {
 			return false;
 		}
 
-		$.post( "/api/login", {login: $("#login").val(), password: $("#password").val()}, function(valid) {
-			if(valid){
-//console.log("valid")
+		$.post( "/api/login", {login: $("#login").val(), password: $("#password").val()}, function(result) {
+			if(result === true){
 				window.location="/"
-			}else err("Неправильный логин/пароль")
+			}else{
+				var txt = ""
+				switch(result){
+					case "notFound":
+						txt = "Пользователь не найден";
+						break;
+					case "wrongIp":
+						txt = "Недопустимый ip"
+						break;
+					case "blocked":
+						txt = "Пользователь заблокирован";
+						break;
+					case "wrongPass":
+						txt = "Неправильный пароль";
+						break;
+					default:
+						txt = "You shall not pass!"
+						break;
+				}
+				err(txt)
+			}
 		});
 		return false;
 	})

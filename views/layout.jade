@@ -6,12 +6,14 @@ html
 		link(rel='stylesheet', href='/css/bootstrap.min.css')
 		link(rel='stylesheet', href='/css/app.css') 
 	body
+		loader
+			img(src="/images/loader.png")
 		header
 			div
 				a(href='/') Spareparts
 			if user
 				logInfo
-					name #{user.login}			 	
+					name #{user.fio}			 	
 					lastLogin #{user.lastLogin}
 					a(href="/logout") Выход
 		content

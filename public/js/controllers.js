@@ -5,16 +5,37 @@
 angular.module('myApp.controllers', []).
 	controller('SecureCtrl', function ($scope, $http) {
 		$scope.articulsArr = [];
-		$scope.articulsSearch = function(){
-			//angular.element("loader").show();
-			$http.post("/api/articulsSearch", {articuls: $scope.articulsArr}).success(function(data) {
-				//angular.element("loader").hide();
+		$scope.articulsSearch = function(articulsArr){
+			if(!articulsArr || articulsArr.length == 0)return false;
+			angular.element("loader").show();
+			if(!Array.isArray(articulsArr)){
+				articulsArr = articulsArr.split("\n")
+			}
+			$http.post("/api/articulsSearch", {articuls: articulsArr}).success(function(data) {
+				angular.element("loader").hide();
 				$scope.result = data
 			});
 			
 		}
 		$scope.articulsLoadStart = function(){
-			angular.element("loader").show();
+			alert("Ждите в следующей версии");
+			return false;
+			//angular.element("loader").show();
+			var data = new FormData().append("articuls", $("input[name=articuls]"))
+			console.log(data)
+			jQuery.ajax({
+			    url: '/api/loadArticuls',
+			    data: data,
+			    cache: false,
+			    contentType: false,
+			    type: 'POST',
+			    success: function(data){
+			    	angular.element("loader").hide();
+			    	console.log("resp", data)
+			       $scope.result = data 
+			    }
+			});
+			
 		}
 		$scope.sendQuery = function(){
 			alert("In next version")
@@ -71,7 +92,7 @@ angular.module('adminApp.controllers', []).
 		};
 	}).
 	controller('AddUserCtrl', function ($scope, $modalInstance, $http) {
-		$scope.userAction = ["Создание", "Создать"];
+		$scope.userAction = ["Создание", "Создать", true];
 		$scope.user = {}
 		$scope.ok = function () {
 			$scope.err = "";
@@ -108,7 +129,7 @@ angular.module('adminApp.controllers', []).
 
 		$scope.switchUser = function(user){
 			if(user.isBlocked){
-				delete user.isBlocked
+				user.isBlocked = false
 			}else user.isBlocked = true;
 			$http.post("/api/userEdit", {user:user}).success(function(data) {
 				showUsersList();

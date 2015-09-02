@@ -1,4 +1,4 @@
-<query ng-show="!result">
+<query>
 	<inputs>		
 		<p>Артикулы</p>
 		<!-- TODO: родить человеческий способ вывода этих ебучих инпутов-->
@@ -19,7 +19,7 @@
 		<textarea ng-model="plainArticuls"></textarea>
 		<button class='btn btn-default' ng-click='articulsSearch(plainArticuls)'>Поиск</button>
 	</plainArticuls>
-	<form class='articulsLoad' action="/api/loadArticuls" enctype="multipart/form-data" method="post">
+	<form class='articulsLoad'>
 		Выберите файл для загрузки (в одному артикулу в строке фаила)
 		<input type="file" name="articuls">
 		<input type="submit" ng-click='articulsLoadStart()' class="btn btn-default" value="Загрузить">
@@ -45,7 +45,7 @@
 				<td>{{elem.name_nom}}</td>
 				<td>{{elem.price}}</td>
 				<td>{{elem.kol}}</td>
-				<td><input type='text' /></td>
+				<td><input type='number' /></td>
 			</tr>
 		</tbody>
 	</table>
@@ -53,3 +53,6 @@
 	<input type='text' placeholder='Серийный номер ТС' ng-model='serial'>
 	<button ng-show='serial' ng-click='sendQuery()'>Отправить запрос</button>
 </result>
+<noresult ng-show="result == []">
+	Ничего не найдено
+</noresult>

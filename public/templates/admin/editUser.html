@@ -4,17 +4,17 @@
 <div class="modal-body">
 	<form novalidate name='editUser'>
 	<table class='userEdit'>
-		<tr ng-show="!user">
+		<tr ng-show="userAction[2]">
 			<td>Логин</td>
 			<td><input ng-model='user.login' required /></td>
 		</tr>
 		<tr>
 			<td>Пароль</td>
-			<td><input ng-model='user.password' required /></td>
+			<td><input ng-model='user.password' ng-required="userAction[2]" /></td>
 		</tr>
 		<tr>
 			<td>Подтверждение пароля</td>
-			<td><input ng-model='user.password2' required /></td>
+			<td><input ng-model='user.password2' ng-required="userAction[2]" /></td>
 		</tr>
 		<tr>
 			<td>ФИО</td>

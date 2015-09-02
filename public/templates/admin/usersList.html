@@ -1,4 +1,6 @@
 <input type='button' ng-click="openAddUserModal()" class='addUser btn btn-success btn-sm' value='Добавить пользователя' /> 
+<span>Всего: <num>{{usersList.length}}</num></span>
+<span>Активных: <num>{{usersList | countActive}}</num></span>
 <table class="usersList">
 	<thead>
 		<tr>
@@ -9,15 +11,15 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="user in usersList | orderBy:'login'">
+		<tr ng-repeat="user in usersList | orderBy:'login'" ng-class="{blocked:user.isBlocked}">
 			<td>{{user.login}}</td>
 			<td>{{user.fio}}</td>
 			<td>{{user.ip}}</td>
-			<td>
-				<button class='block btn btn-danger btn-xs' ng-show="!user.blocked" ng-click="switchUser(user)">block</button>
-				<button class='unblock btn btn-danger btn-xs' ng-show="user.blocked" ng-click="switchUser(user)">unblock</button>
+			<td>				
 				<button class='del btn btn-danger btn-xs' ng-click="delUser(user.login)">del</button>
 				<button class='edit btn btn-info btn-xs' ng-click="openEditUserModal(user)">edit</button>
+				<button class='block btn btn-warning btn-xs' ng-show="!user.isBlocked" ng-click="switchUser(user)">block</button>
+				<button class='unblock btn btn-success btn-xs' ng-show="user.isBlocked" ng-click="switchUser(user)">unblock</button>
 			</td>
 		</tr>
 	</tbody>

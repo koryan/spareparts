@@ -89,12 +89,14 @@ exports.getUsersListS = function (req, res, next) {
 
 
 exports.login = function (req, res) {	
-	user.auth(req.body.login, req.body.password, req.connection.remoteAddress, function(err, user){
-		
-		if(err)return next(err);
+	user.auth(req.body.login, req.body.password, req.connection.remoteAddress, function(err, user){		
+		if(err){
+			if(!!~["notFound","blocked", "wrongIp", "wrongPass"].indexOf(err)){
+				res.send(err);				
+			}else return next(err);	
+		}
 		if(user){
 			req.session.user = user;
-
 			res.send(true)
 		}else{res.send(false);}
 		
@@ -109,8 +111,10 @@ exports.processXML = function(req, res, next){
 }
 
 exports.processArticuls = function(req, res, next){
+	var fs = require('fs');
 	fs.readFile(conf.uploadFolder+"/"+conf.articulsFileName, function (err, data) {	
 		if (err){return next(err);}
+		console.log(data.toString().split("\n"))
 		articulsSearch(data.toString().split("\n"), function(err, result){
 			if(err){return next(err);}
 			res.send(result);
