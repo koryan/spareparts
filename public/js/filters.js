@@ -13,4 +13,11 @@ angular.module('adminApp.filters', []).
     return function (bool) {
       return bool ? 'успешно':'сломалося';
     };
+  }).
+  filter('countActive', function (version) {
+    return function (array) {
+      var result = 0;
+      for(var i in array){if(!array[i].isBlocked)result++}
+      return result;
+    };
   });
