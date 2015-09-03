@@ -1,7 +1,7 @@
 var moment = require("moment");
 var conf = require('../conf.json');
 var	db = require('riak-js')({host: conf.riak.host, port: conf.riak.port});
-
+var async = require('async');
 var crypto = require('crypto');
 
 module.exports.auth = function(login, password, ip, cb){
@@ -17,11 +17,11 @@ module.exports.auth = function(login, password, ip, cb){
 			if(user.isBlocked){cb("blocked");return;}
 			if(crypto.createHash('md5').update(password).digest('hex') == user.password){
 				user.lastLogin = new Date().getTime();
-				db.save(conf.riakBuckets.users, user.login, user, function(err, rslt) {
-			        delete user.password;
-					cb(null, user)
-			    });
-			    return;				
+				log(user.login, {action:"login"}, function() {})
+				db.save(conf.riakBuckets.users, user.login, user, function() {});
+				delete user.password;
+				cb(null, user)
+			    			
 			};
 			cb("wrongPass")
 		})
@@ -55,7 +55,54 @@ var getList = function(cb){
 	})  
 }
 
-module.exports.get = get
+var log = {
+	write: function(userLogin, logObj, cb){		
+		var time = new Date().getTime();
+		logObj.userLogin = userLogin;
+		async.parallel([
+		    function(callback){
+		    	db.save(conf.riakBuckets.usersLog, time, logObj, callback)
+		    },
+		    function(callback){
+		    	db.get(conf.riakBuckets.personalUsersLog, data)
+		    		if(err && !err.notFound){						
+						callback(err);
+						return;
+					}
+					if(err.notFound)data = [];
+					data.push(""+time)
+		    		db.save(conf.riakBuckets.personalUsersLog, userLogin, data, callback)
+		    },
+		],
+		function(err){
+			if(err){cb(err);return;}
+			cb();
+		})		
+		
+	},
+	read: function(userLogin, cb){
+		db.get(conf.riakBuckets.personalUsersLog, userLogin, function(err, data){
+			if(err){
+				cb(err, data);
+				return;
+			}
+			console.log(data);
+			cb(null, data)	
+		})
+	}
+	readAll: function(cb){
+		db.getAll(conf.riakBuckets.usersLog, function(err, data){
+			if(err){
+				cb(err, data);
+				return;
+			}
+			cb(null, data)	
+		})
+	}
+}
+
+module.exports.log = log;
+module.exports.get = get;
 
 module.exports.create = function(newUser, cb){
 	get(newUser.login,  function(err, rslt){

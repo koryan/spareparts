@@ -5,6 +5,7 @@
 angular.module('myApp.controllers', []).
 	controller('SecureCtrl', function ($scope, $http) {
 		$scope.articulsArr = [];
+
 		$scope.articulsSearch = function(articulsArr){
 			if(!articulsArr || articulsArr.length == 0)return false;
 			angular.element("loader").show();
@@ -13,12 +14,12 @@ angular.module('myApp.controllers', []).
 			}
 			$http.post("/api/articulsSearch", {articuls: articulsArr}).success(function(data) {
 				angular.element("loader").hide();
+				if(!data || data == "" || data.length) alert("Ничего не найдено :(")
 				$scope.result = data
 			});
 			
 		}
-		$scope.articulsLoadStart = function(){
-			
+		$scope.articulsLoadStart = function(){			
 			//angular.element("loader").show();
 			var data = new FormData().append("articuls", $("input[name=articuls]"))
 			console.log(data)

@@ -31,26 +31,23 @@ var writeProcessResult = function(result, cb){
 }
 
 module.exports.process = function (cb) {
-	console.log("alive")	
+	console.log("alive", conf.uploadFolder+"/"+conf.xmlFileName)	
 	fs.readFile(conf.uploadFolder+"/"+conf.xmlFileName, function (err, data) {		
 		var json = {}
 		if (err){cb(err);return;}
 		try {
 	        json = xml2json.toJson(data);
-			writeProcessResult(json, cb)
-			return;	        
+			writeProcessResult(json, cb)			
 	    } catch (e) {
 	    	console.log("ERROR", e)
 	        writeProcessResult(false, cb)
-	        return;	 
 	    }			
+	    fs.unlinkSync(conf.uploadFolder+"/"+conf.xmlFileName)
 	});
 }
 
 module.exports.getLastTry = function(cb){
-	console.log("rwaterfall start");
 	var time = undefined;
-
    	db.get(conf.riakBuckets.xml, 'lastTry', function(err, data){
    		if(err){
    			if(err.notFound){
@@ -101,7 +98,7 @@ module.exports.get = get;
 
 module.exports.articulsSearch = function(articuls, cb){
 	
-	get(function(err, result){
+	get(function(err, data){
 		if(err){
 			console.log('ERROR IN GETTING BLOB', err)
 			cb(err)
@@ -113,19 +110,22 @@ module.exports.articulsSearch = function(articuls, cb){
 		//   price: 0,
 		//   kol: 0 }
 		//console.log(result)
-		console.log("typeof result", typeof result)
-		
-
-		var json = JSON.parse(result);
-		//var i =0;
+		console.log("typeof data", typeof data)
+		var json = JSON.parse(data);
+		console.log("typeof parsed data", typeof json)
+		var i =0;
 		var result = [];
 		//console.log(Object.keys(json.Data.str))
+		//console.log("articuls", articuls)
 		for(j in json.Data.str){
-			var elem = json.Data.str[j];			
-			if(articuls.indexOf(elem.id_nom.toString()) !== -1){
+			var elem = json.Data.str[j];	
+			//console.log(elem.id_nom)
+
+			if(articuls.indexOf(elem.id_nom) !== -1){
 				result.push(elem)
 			}	
-			//if(i > 10)		break;
+			//console.log(elem.id_nom, typeof elem.id_nom)
+			//if(i > 20)		break;
 			//i++;
 		}
 		//console.log()

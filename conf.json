@@ -5,13 +5,15 @@
 		"port":8098
 	},
 	"checkIpOnLogin": false,
-	"uploadFolder": "/upload",
+	"uploadFolder": "./upload",
 	"xmlFileName": "xml.xml",
 	"articulsFileName": "articuls",
 	"riakBuckets":{
 		"xml":"xml",
 		"users":"users",
-		"sessionBucket":"app_session_bucket"
+		"sessionBucket":"app_session_bucket",
+		"usersLog":"usersLog",
+		"personalUsersLog":"personalUsersLog"
 	},
 	"admin":{
 		"login":"admin",

@@ -9,6 +9,7 @@ var express = require('express'),
 	//middleware = require('./middleware')(app, express),
 	path = require('path'),
 	auth = require('./middleware/auth'),
+	userLogger = require('./middleware/userLogger'),
 	multer = require('multer'),	
 	conf = require('./conf.json'),
 	session = require("express-session");
@@ -114,7 +115,7 @@ app.post('/api/loadXML', [auth.checkAdmin, upload.single('xml')], api.processXML
 app.post('/api/getXmlLastTry', api.getXmlLastTry)
 
 app.post('/api/loadArticuls', [auth.checkUser, upload.single('articuls')], api.processArticuls)
-app.post('/api/articulsSearch', auth.checkUser, api.articulsSearch)
+app.post('/api/articulsSearch', [auth.checkUser, ], api.articulsSearch)
 app.post('/api/sendMail', auth.checkUser, api.sendMail)
 
 
