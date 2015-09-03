@@ -4,8 +4,8 @@
 		"host":"localhost",
 		"port":8098
 	},
-	"checkIpOnLogin": true,
-	"uploadFolder": "upload",
+	"checkIpOnLogin": false,
+	"uploadFolder": "/upload",
 	"xmlFileName": "xml.xml",
 	"articulsFileName": "articuls",
 	"riakBuckets":{

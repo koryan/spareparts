@@ -111,10 +111,11 @@ app.post('/api/userCreate', auth.checkAdmin, api.userCreate)
 app.post('/api/userRemove', auth.checkAdmin, api.userRemove)
 app.post('/api/userEdit', auth.checkAdmin, api.userEdit)
 app.post('/api/loadXML', [auth.checkAdmin, upload.single('xml')], api.processXML)
-app.post('/api/loadArticuls', upload.single('articuls'), api.processArticuls)
 app.post('/api/getXmlLastTry', api.getXmlLastTry)
-app.post('/api/articulsSearch', api.articulsSearch)
-app.post('/api/sendMail', api.sendMail)
+
+app.post('/api/loadArticuls', [auth.checkUser, upload.single('articuls')], api.processArticuls)
+app.post('/api/articulsSearch', auth.checkUser, api.articulsSearch)
+app.post('/api/sendMail', auth.checkUser, api.sendMail)
 
 
 

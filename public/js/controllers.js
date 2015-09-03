@@ -18,8 +18,7 @@ angular.module('myApp.controllers', []).
 			
 		}
 		$scope.articulsLoadStart = function(){
-			alert("Ждите в следующей версии");
-			return false;
+			
 			//angular.element("loader").show();
 			var data = new FormData().append("articuls", $("input[name=articuls]"))
 			console.log(data)
