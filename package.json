@@ -16,6 +16,7 @@
     "moment":"~2.10.6",
     "riak-js":"~1.1.0",
     "multer":"~1.0.3",
-    "express-session":"*"
+    "express-session":"*",
+    "async":"~1.4.2"
   }
 }

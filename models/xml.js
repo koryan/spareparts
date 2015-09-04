@@ -48,12 +48,15 @@ module.exports.process = function (cb) {
 
 module.exports.getLastTry = function(cb){
 	var time = undefined;
+	console.log("000")
    	db.get(conf.riakBuckets.xml, 'lastTry', function(err, data){
    		if(err){
+   			console.log("55555")
    			if(err.notFound){
 	    		cb(null, null)
 	    		return;
 	    	}	
+	    	
    			cb(err);
    			return;
    		}
@@ -61,6 +64,7 @@ module.exports.getLastTry = function(cb){
 	    db.get(conf.riakBuckets.xml, data.time, function(err, data){
 	    	if(err){	
 	    		if(err.notFound){
+	    			console.log("6666")
 		    		cb(null, {time:time, valid:false})
 		    		return;
 		    	}	

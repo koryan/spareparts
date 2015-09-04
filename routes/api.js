@@ -18,12 +18,16 @@ exports.getSummaryS = function (req, res, next) {
 	    	user.count(callback)
 	    },
 	    function(callback){
+
 	    	xml.getLastTry(callback)
 	    },
 	],
 	function(err, data, asd){
+
+		console.log(err)
 		if(err){return next(err);}
 		if(!data[1])data[1] = {};
+		console.log("444")
 		res.json({
 		    usersNum: data[0],
 		    lastQuery: {

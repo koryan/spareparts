@@ -89,7 +89,7 @@ var log = {
 			console.log(data);
 			cb(null, data)	
 		})
-	}
+	},
 	readAll: function(cb){
 		db.getAll(conf.riakBuckets.usersLog, function(err, data){
 			if(err){
