@@ -17,7 +17,7 @@ module.exports.auth = function(login, password, ip, cb){
 			if(user.isBlocked){cb("blocked");return;}
 			if(crypto.createHash('md5').update(password).digest('hex') == user.password){
 				user.lastLogin = new Date().getTime();
-				log(user.login, {action:"login"}, function() {})
+				//log(user.login, {action:"login"}, function() {})
 				db.save(conf.riakBuckets.users, user.login, user, function() {});
 				delete user.password;
 				cb(null, user)
@@ -56,25 +56,31 @@ var getList = function(cb){
 }
 
 var log = {
-	write: function(userLogin, logObj, cb){		
+	write: function(userLogin, logObj, cb){	
 		var time = new Date().getTime();
 		logObj.userLogin = userLogin;
-		async.parallel([
-		    function(callback){
+		async.auto({
+		    writeCommon: function(callback){
 		    	db.save(conf.riakBuckets.usersLog, time, logObj, callback)
 		    },
-		    function(callback){
-		    	db.get(conf.riakBuckets.personalUsersLog, data)
-		    		if(err && !err.notFound){						
-						callback(err);
-						return;
-					}
-					if(err.notFound)data = [];
-					data.push(""+time)
-		    		db.save(conf.riakBuckets.personalUsersLog, userLogin, data, callback)
+		    getIndividual: function(callback){
+		    	db.get(conf.riakBuckets.personalUsersLog, userLogin, function(err, data){
+		    		if(err){
+			    		if(err.notFound){
+			    			callback(null, [])
+			    		}else callback(err)
+			    		return;
+			    	}
+			    	callback(null, data)
+		    	})
 		    },
-		],
+		    writeIndividual: ['getIndividual', function(callback, results){
+				results.getIndividual.push(""+time)
+	    		db.save(conf.riakBuckets.personalUsersLog, userLogin, results.getIndividual, callback)
+	    	}]
+		},
 		function(err){
+			console.log("all!", err)
 			if(err){cb(err);return;}
 			cb();
 		})		

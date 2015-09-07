@@ -35,9 +35,7 @@ exports.getSummaryS = function (req, res, next) {
 		    	user: 'Darth Vader',
 		    	ip: '192.0.0.1'
 		    },
-		    addresses: [
-		    	conf.mailAddresess
-		    ],
+		    addresses: 	conf.mailAddresess,
 		    xmlStatus:{
 		    	success: data[1].valid,
 		    	datetime: data[1].time
@@ -131,6 +129,23 @@ exports.getXmlLastTry = function(req, res, next){
 		if(err){return next(err);}
 		res.send(data);
 	})	
+}
+
+
+exports.log = {
+	read:function(req, res, next){
+			user.log.read(req.body.userLogin, function(err, data){
+				if(err){return next(err);}
+				res.send(data);
+			})
+		},
+	readAll:function(req, res, next){
+			user.log.readAll(function(err, data){
+				if(err){return next(err);}
+				res.send(data);
+			})
+		}
+	
 }
 
 

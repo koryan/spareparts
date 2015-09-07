@@ -14,6 +14,23 @@ angular.module('adminApp.filters', []).
       return bool ? 'успешно':'сломалося';
     };
   }).
+  filter('logType', function (version) {
+    return function (logType) {
+      var res = "";
+      switch(logType){
+        case "search":
+          res = "поиск";
+          break;
+        case "send":
+          res = "запрос";
+          break;
+        case "login":
+          res = "вход";
+          break;
+      }
+      return res;
+    };
+  }).
   filter('countActive', function (version) {
     return function (array) {
       var result = 0;

@@ -19,5 +19,6 @@
 		"login":"admin",
 		"password":"pass"
 	},
-	"mailAddresess":["koryan@mail.ru","test.ru"]
+	"mailAddresess":["koryan@mail.ru","test.ru"],
+	"maxArticulsPerQuery": 100
 }

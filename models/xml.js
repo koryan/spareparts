@@ -129,8 +129,8 @@ module.exports.articulsSearch = function(articuls, cb){
 				result.push(elem)
 			}	
 			//console.log(elem.id_nom, typeof elem.id_nom)
-			//if(i > 20)		break;
-			//i++;
+			if(i > conf.maxArticulsPerQuery)break;
+			i++;
 		}
 		//console.log()
 		cb(null, result)

@@ -7,9 +7,9 @@
 			<p><b>Пользователь</b>{{summary.lastQuery.user}}</p>
 			<p><b>Ip</b>{{summary.lastQuery.ip}}</p>
 		</dd>	
-	<dt>Адреса</dt>
+	<dt>Адреса доставки заказов</dt>
 		<dd>
-			<input type="text" ng-repeat="address in summary.addresses" value="{{address}}" />
+			<address ng-repeat="address in summary.addresses">{{address}}</address>
 		</dd>
 	<dt>XML</dt>
 		<dd>

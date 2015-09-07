@@ -20,6 +20,8 @@ dl.summary dd input{display:block;width:300px;}
 dl.summary p{padding:0px;margin:0px;}
 dl.summary p>b{font-weight: normal;font-style: italic;margin-right:3px;}
 dl.summary p>b:after{content:":";}
+dl.summary address{margin-left:4px;}
+dl.summary address:after{content: ","}
 
 login{display:block;text-align:center;height:100%;}
 login form{margin: 0px auto;display:inline-block;border:1px solid gray;padding:10px;border-radius:10px;top:25%;position:relative; }
@@ -63,13 +65,16 @@ span.trytrue{color:green;}
 loader{height:100%;position:fixed;background:rgba(0,0,0,.6);display:none;width:100%;left:0px;top:0px;z-index: 1001;}
 loader>img{display:block;top:45%;left:45%;position:absolute;z-index: 1002;}
 
-.secure query>*{vertical-align: top;display:inline-block;width:230px;border:1px solid gray;border-radius:10px;padding:10px;margin-right:20px;}
+.secure query{margin-bottom:20px;display: inline-block;vertical-align: top}
+.secure query>*{vertical-align: top;display:inline-block;width:230px;vertical-align: top;border:1px solid gray;border-radius:10px;padding:10px;margin-right:20px;}
+.secure result{display:inline-block;}
 .secure plainArticuls{width:230px;height:365px;}
 .secure plainArticuls textarea{width: 205px;height:280px}
 .secure inputs>button, .secure plainArticuls>button{width:98%;margin-top:10px;}
 .secure inputs>input{width:205px;height:26px;padding:1px;margin:1px 0px;}
-.secure form.articulsLoad .btn{margin-top:10px;}
-.secure table.result{border: 1px solid rgba(0,0,255,.7);border-collapse:collapse;margin-top:10px;}
+.secure form.articulsLoad{display: none;}
+.secure form.articulsLoad .btn{margin-top:10px; }
+.secure table.result{border: 1px solid rgba(0,0,255,.7);border-collapse:collapse;}
 .secure table.result td{border: 1px solid rgba(0,0,255,.7);padding:0px 4px;}
 .secure table.result thead td{font-weight:bold;text-align:center;border-bottom:2px solid rgba(0,0,255,.7);;}
 .secure table.result tbody tr:nth-child(odd){background-color: rgba(0,0,255,.1);}
@@ -80,3 +85,12 @@ loader>img{display:block;top:45%;left:45%;position:absolute;z-index: 1002;}
 .secure table.result input{width:40px;text-align:right;}
 
 .xmlLoad .btn{margin-top:5px !important;}
+
+table.commonLogs{border:1px solid gray;border-collapse: collapse;}
+table.commonLogs td{border:1px solid gray;padding:0px 4px;}
+table.commonLogs thead{font-weight:bold;text-align:center;}
+table.commonLogs tbody{text-align: right}
+table.commonLogs tbody tr>td:first-of-type:first-letter{text-transform: uppercase;}
+table.commonLogs tbody tr.search{background-color: rgba(0,255,0,0.1)}
+table.commonLogs tbody a{cursor:pointer;}
+table.commonLogs tbody params{color:gray;font-size:80%;max-width:400px;display: block; word-wrap: break-word;border:1px solid gray;background-color: white;margin-bottom:10px;display: none;padding:0px 2px;}

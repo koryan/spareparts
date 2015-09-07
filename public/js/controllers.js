@@ -14,7 +14,7 @@ angular.module('myApp.controllers', []).
 			}
 			$http.post("/api/articulsSearch", {articuls: articulsArr}).success(function(data) {
 				angular.element("loader").hide();
-				if(!data || data == "" || data.length) alert("Ничего не найдено :(")
+				if(!data || data == "" || data.length == 0) alert("Ничего не найдено :(")
 				$scope.result = data
 			});
 			
@@ -54,10 +54,6 @@ angular.module('adminApp.controllers', []).
 		$http.post("/api/getSummaryS").success(function(data) {
 			$scope.summary = data
 		});
-
-	}).
-	controller('LogsCtrl', function ($scope) {
-		// write Ctrl here
 
 	}).
 	controller('XmlCtrl', function ($scope, $http) {
@@ -118,6 +114,19 @@ angular.module('adminApp.controllers', []).
 		$scope.cancel = function () {
 			$modalInstance.dismiss('cancel');
 		};
+	}).
+	controller('LogsCtrl', function ($scope, $http) {
+		$http.post("/api/getLogs/all").success(function(data) {					
+			$scope.commonLogs = data;
+			jQuery("table.commonLogs tbody td.params a").click(function(el){alert("123")});
+		});
+		
+		//$scope.getIndividual
+		$scope.getIndividual = function(userLogin){
+			$http.post("/api/getLogs/personal",{userLogin:userLogin}).success(function(data) {				
+				$scope.individualLogs = data;
+			});
+		}
 	}).
 	controller('UsersListCtrl', function ($scope, $http, $modal) {
 		var showUsersList = function(){

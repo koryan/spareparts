@@ -45,11 +45,11 @@
 				<td>{{elem.name_nom}}</td>
 				<td>{{elem.price}}</td>
 				<td>{{elem.kol}}</td>
-				<td><input ng-show='elem.kol' type='number' onchange="if(this.value < 0){this.value=0}" /></td>
+				<td><input ng-show='elem.kol' type='number' onchange="if(this.value < 0){this.value=0};" /></td>
 			</tr>
 		</tbody>
 	</table>
-
+	<maxLimit ng-show="result.length==100">Показано предельное количество строк</maxLimit>
 	<input type='text' placeholder='Серийный номер ТС' ng-model='serial'>
-	<button ng-show='serial' ng-click='sendQuery()'>Отправить запрос</button>
+	<button ng-disabled='!serial'  class='btn btn-default' ng-click='sendQuery()'>Отправить запрос</button>
 </result>

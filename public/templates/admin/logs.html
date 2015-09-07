@@ -1,1 +1,22 @@
-Ждите в следующей версии
+<table class='commonLogs' ng-show="commonLogs">
+	<thead>
+		<tr>
+			<td>Действие</td>
+			<td>Пользователь</td>
+			<td>Данные</td>
+
+		</tr>
+	</thead>
+	<tbody>
+		<tr class='{{log.action}}' ng-repeat="log in commonLogs">
+			<td>{{log.action | logType}}</td>
+			<td><a ng-click="getIndividual(log.userLogin)">{{log.userLogin}}</td>
+			<td class='params'><a>v</a><params>{{log.params}}</params></td>
+		</tr>
+	</tbody>
+</table>
+<table class="individualLogs" ng-show="individualLogs">
+	<tr ng-repeat="log in individualLogs">
+		
+	</tr>
+</table>
