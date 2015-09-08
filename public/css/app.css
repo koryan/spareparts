@@ -20,8 +20,9 @@ dl.summary dd input{display:block;width:300px;}
 dl.summary p{padding:0px;margin:0px;}
 dl.summary p>b{font-weight: normal;font-style: italic;margin-right:3px;}
 dl.summary p>b:after{content:":";}
-dl.summary address{margin-left:4px;}
+dl.summary address{margin-right:4px;margin-bottom:0px;display:inline;}
 dl.summary address:after{content: ","}
+dl.summary address:last-of-type:after{content:"";margin-right:none;}
 
 login{display:block;text-align:center;height:100%;}
 login form{margin: 0px auto;display:inline-block;border:1px solid gray;padding:10px;border-radius:10px;top:25%;position:relative; }

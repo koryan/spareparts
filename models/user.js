@@ -87,12 +87,17 @@ var log = {
 		
 	},
 	read: function(userLogin, cb){
-		db.get(conf.riakBuckets.personalUsersLog, userLogin, function(err, data){
+		db.get(conf.riakBuckets.personalUsersLog, userLogin, function(err, data){	
+		var res = {};		
 			if(err){
-				cb(err, data);
+				if(err.notFound){cb(null, [])}else cb(err, data);
 				return;
 			}
-			console.log(data);
+			// for(var i = 0; i < data.length; i++){
+			// 	db.get(conf.riakBuckets.usersLog, data[i], function(err, innerData){
+			// 		res[data[i]] = innerData
+			// 	})
+			// }
 			cb(null, data)	
 		})
 	},
