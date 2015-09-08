@@ -1,22 +1,40 @@
-<table class='commonLogs' ng-show="commonLogs">
+<table class='logs common' ng-show="commonLogs">
 	<thead>
 		<tr>
+			<td>Время</td>
 			<td>Действие</td>
+			<td>ip</td>
 			<td>Пользователь</td>
 			<td>Данные</td>
 
 		</tr>
 	</thead>
 	<tbody>
-		<tr class='{{log.action}}' ng-repeat="log in commonLogs">
+		<tr class='{{log.action}}' ng-repeat="log in commonLogs | orderBy:'-time'">
+			<td>{{log.time | date:'dd.MM.yy HH:mm:ss'}}</td>
 			<td>{{log.action | logType}}</td>
+			<td>{{log.ip}}</td>
 			<td><a ng-click="getIndividual(log.userLogin)">{{log.userLogin}}</td>
-			<td class='params'><a>v</a><params>{{log.params}}</params></td>
+			<td class='params'><a ng-show="log.params.length" >v</a><params>{{log.params}}</params></td>
 		</tr>
 	</tbody>
 </table>
-<table class="individualLogs" ng-show="individualLogs">
-	<tr ng-repeat="log in individualLogs">
-		
-	</tr>
+<table class="logs individual" ng-show="individualLogs">
+	<thead>
+		<tr><td colspan="3">Логи пользователья <b>{{individualLogsUserName}}</b></td></tr>
+		<tr>
+			<td>Время</td>
+			<td>Действие</td>
+			<td>ip</td>
+			<td>Данные</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr  class='{{log.action}}' ng-repeat="log in individualLogs | orderBy:'-time'">
+			<td>{{log.time | date:'dd.MM.yy HH:mm:ss'}}</td>
+			<td>{{log.action | logType}}</td>
+			<td>{{log.ip}}</td>
+			<td class='params'><a ng-show="log.params.length">v</a><params>{{log.params}}</params></td>
+		</tr>
+	</tbody>
 </table>

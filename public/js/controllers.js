@@ -116,16 +116,31 @@ angular.module('adminApp.controllers', []).
 		};
 	}).
 	controller('LogsCtrl', function ($scope, $http) {
+		var zzz = function(){
+			setTimeout(function(){
+				jQuery("table.logs tbody td.params a").click(function(el){	
+					if($(el.currentTarget).html() == "^"){
+						$(el.currentTarget).html("v")
+						$(el.currentTarget).next().hide()
+					}else{
+						$(el.currentTarget).html("^")
+						$(el.currentTarget).next().show()
+					}
+				});	
+			},0) 
+		}
 		$http.post("/api/getLogs/all").success(function(data) {					
 			$scope.commonLogs = data;
-			jQuery("table.commonLogs tbody td.params a").click(function(el){alert("123")});
+			zzz()			
 		});
 		
 		//$scope.getIndividual
 		$scope.getIndividual = function(userLogin){
 			$http.post("/api/getLogs/personal",{userLogin:userLogin}).success(function(data) {				
 				$scope.individualLogs = data;
+				zzz()
 			});
+			$scope.individualLogsUserName = userLogin;
 		}
 	}).
 	controller('UsersListCtrl', function ($scope, $http, $modal) {

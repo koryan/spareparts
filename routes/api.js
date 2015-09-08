@@ -18,11 +18,13 @@ exports.getSummaryS = function (req, res, next) {
 	    	user.count(callback)
 	    },
 	    function(callback){
-
 	    	xml.getLastTry(callback)
 	    },
+	    function(callback){
+	    	user.log.getLastSearch(callback)
+	    }
 	],
-	function(err, data, asd){
+	function(err, data){
 
 		console.log(err)
 		if(err){return next(err);}
@@ -30,11 +32,7 @@ exports.getSummaryS = function (req, res, next) {
 		console.log("444")
 		res.json({
 		    usersNum: data[0],
-		    lastQuery: {
-		    	date: '12.02.2015', 
-		    	user: 'Darth Vader',
-		    	ip: '192.0.0.1'
-		    },
+		    lastQuery: data[2],
 		    addresses: 	conf.mailAddresess,
 		    xmlStatus:{
 		    	success: data[1].valid,

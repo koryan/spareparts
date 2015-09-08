@@ -18,10 +18,3 @@ exports.admin = function(req, res){
 exports.p404 = function(req, res){
   res.status(404).render('404');
 };
-
-
-
-exports.partials = function (req, res) {
-  var name = req.params.name;
-  res.render('partials/' + name);
-};

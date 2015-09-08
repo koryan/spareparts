@@ -90,7 +90,6 @@ app.get('/admin/logs', auth.checkAdmin, routes.admin);
 app.get('/admin/userslist', auth.checkAdmin, routes.admin);
 app.get('/admin/xml', auth.checkAdmin, routes.admin);
 app.get('/login', function(req, res, next){ 
-		console.log("res.user", res.user)
         if(req.session.user){
             if(req.session.user.isAdmin){
               res.redirect('/admin');
@@ -100,27 +99,25 @@ app.get('/login', function(req, res, next){
 app.get('/logout', function(req, res){
 	req.session.user = null;	
 	res.redirect("/login");
-}, routes.login)
-
-app.get('/partials/:name', routes.partials);
+}, routes.login);
 
 // JSON API
-app.post('/api/getUsersListS', auth.checkAdmin, api.getUsersListS)
-app.post('/api/getSummaryS', auth.checkAdmin, api.getSummaryS)
-app.post('/api/login', api.login)
-app.post('/api/userCreate', auth.checkAdmin, api.userCreate)
-app.post('/api/userRemove', auth.checkAdmin, api.userRemove)
-app.post('/api/userEdit', auth.checkAdmin, api.userEdit)
-app.post('/api/loadXML', [auth.checkAdmin, upload.single('xml')], api.processXML)
-app.post('/api/getLogs/all', auth.checkAdmin, api.log.readAll)
-app.post('/api/getLogs/personal', auth.checkAdmin, api.log.read)
-app.post('/api/getXmlLastTry', api.getXmlLastTry)
+app.post('/api/getUsersListS', auth.checkAdmin, api.getUsersListS);
+app.post('/api/getSummaryS', auth.checkAdmin, api.getSummaryS);
+app.post('/api/login', api.login);
+app.post('/api/userCreate', auth.checkAdmin, api.userCreate);
+app.post('/api/userRemove', auth.checkAdmin, api.userRemove);
+app.post('/api/userEdit', auth.checkAdmin, api.userEdit);
+app.post('/api/loadXML', [auth.checkAdmin, upload.single('xml')], api.processXML);
+app.post('/api/getLogs/all', auth.checkAdmin, api.log.readAll);
+app.post('/api/getLogs/personal', auth.checkAdmin, api.log.read);
+app.post('/api/getXmlLastTry', api.getXmlLastTry);
 
 
 
-app.post('/api/loadArticuls', [auth.checkUser, upload.single('articuls')], api.processArticuls)
-app.post('/api/articulsSearch', [userLogger.search, auth.checkUser], api.articulsSearch)
-app.post('/api/sendMail', [auth.checkUser, userLogger.send], api.sendMail)
+app.post('/api/loadArticuls', [auth.checkUser, upload.single('articuls')], api.processArticuls);
+app.post('/api/articulsSearch', [userLogger.search, auth.checkUser], api.articulsSearch);
+app.post('/api/sendMail', [auth.checkUser, userLogger.send], api.sendMail);
 
 
 
@@ -133,5 +130,5 @@ app.get('*', routes.p404);
  */
 
 http.createServer(app).listen(app.get('port'), function () {
-  console.log('Express server listening on port ' + app.get('port'));
+  console.log('Server listening on port ' + app.get('port'));
 });

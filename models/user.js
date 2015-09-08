@@ -5,8 +5,7 @@ var async = require('async');
 var crypto = require('crypto');
 
 module.exports.auth = function(login, password, ip, cb){
-	console.log(login, password)
-	if(login == "admin" && password =="pass"){		
+	if(login == conf.admin.login && password == conf.admin.password){		
 		cb(null, {isAdmin:true})
 	}
 	else{
@@ -18,6 +17,7 @@ module.exports.auth = function(login, password, ip, cb){
 			if(crypto.createHash('md5').update(password).digest('hex') == user.password){
 				user.lastLogin = new Date().getTime();
 				//log(user.login, {action:"login"}, function() {})
+				log.write(login, {action:"login", ip: ip}, function(){})
 				db.save(conf.riakBuckets.users, user.login, user, function() {});
 				delete user.password;
 				cb(null, user)
@@ -60,8 +60,23 @@ var log = {
 		var time = new Date().getTime();
 		logObj.userLogin = userLogin;
 		async.auto({
+			getCommonKeys: function(callback){				
+				db.get(conf.riakBuckets.usersLog, 'keys', function(err, data){
+		    		if(err){
+			    		if(err.notFound){
+			    			callback(null, [])
+			    		}else callback(err)
+			    		return;
+			    	}
+			    	callback(null, data)
+		    	})
+			},
+		    writeCommonKeys: ['getCommonKeys', function(callback, results){
+		    	results.getCommonKeys.push(time)
+		    	db.save(conf.riakBuckets.usersLog, 'keys', results.getCommonKeys, callback)
+		    }],
 		    writeCommon: function(callback){
-		    	db.save(conf.riakBuckets.usersLog, time, logObj, callback)
+				db.save(conf.riakBuckets.usersLog, time, logObj, callback)
 		    },
 		    getIndividual: function(callback){
 		    	db.get(conf.riakBuckets.personalUsersLog, userLogin, function(err, data){
@@ -78,36 +93,65 @@ var log = {
 				results.getIndividual.push(""+time)
 	    		db.save(conf.riakBuckets.personalUsersLog, userLogin, results.getIndividual, callback)
 	    	}]
-		},
-		function(err){
-			console.log("all!", err)
-			if(err){cb(err);return;}
-			cb();
-		})		
+		}, cb)		
 		
 	},
 	read: function(userLogin, cb){
-		db.get(conf.riakBuckets.personalUsersLog, userLogin, function(err, data){	
-		var res = {};		
+		var l = 100;
+		db.get(conf.riakBuckets.personalUsersLog, userLogin, function(err, data, meta){	
+			console.log(meta)
 			if(err){
-				if(err.notFound){cb(null, [])}else cb(err, data);
+				if(err.notFound){cb(null, []);}else cb(err, data);
 				return;
 			}
-			// for(var i = 0; i < data.length; i++){
-			// 	db.get(conf.riakBuckets.usersLog, data[i], function(err, innerData){
-			// 		res[data[i]] = innerData
-			// 	})
-			// }
-			cb(null, data)	
+			if(data.length > l)data = data.slice(0, l);
+			async.map(data, function(item, callback){
+				db.get(conf.riakBuckets.usersLog, item, function(err, result){
+					result.time = item;
+					callback(err, result)
+				});
+			},cb);			
 		})
 	},
 	readAll: function(cb){
-		db.getAll(conf.riakBuckets.usersLog, function(err, data){
+		var l = 300;
+		db.get(conf.riakBuckets.usersLog, 'keys', function(err, data){	
 			if(err){
-				cb(err, data);
+				if(err.notFound){cb(null, []);}else cb(err, data);
 				return;
 			}
-			cb(null, data)	
+			if(data.length > l)data = data.slice(0, l);
+			async.map(data, function(item, callback){
+				db.get(conf.riakBuckets.usersLog, item, function(err, result){
+					result.time = item;
+					callback(err, result)
+				});
+			},cb);			
+		})
+	},
+	getLastSearch: function(cb){
+		db.get(conf.riakBuckets.usersLog, 'keys', function(err, data){	
+			if(err){
+				if(err.notFound){cb(null, []);}else cb(err, data);
+				return;
+			}
+			// if(data.length > 50)data = data.slice(0, l);
+			// console.log("start")
+			// async.each(data, function(item, callback){
+			// 	db.get(conf.riakBuckets.usersLog, item, function(err, result){		
+			// 		if(result.action == "search"){
+			// 			result.time = item;	
+			// 			callback(result);
+			// 			//return;
+			// 		}									
+			// 		callback();
+			// 	});
+			// },
+			// function(result){
+			// 	cb(result)
+
+			// });			
+			cb(null ,"qqqqqqq")
 		})
 	}
 }
@@ -117,7 +161,6 @@ module.exports.get = get;
 
 module.exports.create = function(newUser, cb){
 	get(newUser.login,  function(err, rslt){
-		console.log("after get", err, rslt)
 		if(err){
 			cb(err);
 			return;
@@ -137,7 +180,6 @@ module.exports.create = function(newUser, cb){
 }
 
 module.exports.save = function(user, cb){	
-	console.log(user)
 	get(user.login,  function(err, rslt){		
 		if(err){
 			cb(err);

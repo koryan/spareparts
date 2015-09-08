@@ -87,11 +87,12 @@ loader>img{display:block;top:45%;left:45%;position:absolute;z-index: 1002;}
 
 .xmlLoad .btn{margin-top:5px !important;}
 
-table.commonLogs{border:1px solid gray;border-collapse: collapse;}
-table.commonLogs td{border:1px solid gray;padding:0px 4px;}
-table.commonLogs thead{font-weight:bold;text-align:center;}
-table.commonLogs tbody{text-align: right}
-table.commonLogs tbody tr>td:first-of-type:first-letter{text-transform: uppercase;}
-table.commonLogs tbody tr.search{background-color: rgba(0,255,0,0.1)}
-table.commonLogs tbody a{cursor:pointer;}
-table.commonLogs tbody params{color:gray;font-size:80%;max-width:400px;display: block; word-wrap: break-word;border:1px solid gray;background-color: white;margin-bottom:10px;display: none;padding:0px 2px;}
+table.logs{border:1px solid gray;border-collapse: collapse;display: inline-block;vertical-align: top}
+table.logs td{border:1px solid gray;padding:0px 4px;}
+table.logs thead{font-weight:bold;text-align:center;}
+table.logs tbody{text-align: right}
+table.logs tbody tr.search{background-color: rgba(0,255,0,0.1)}
+table.common.logs{margin-right:20px;}
+table.logs tbody a{cursor:pointer;}
+table.logs tbody params{color:gray;font-size:80%;max-width:400px;display: block; word-wrap: break-word;border:1px solid gray;background-color: white;margin-bottom:10px;display: none;padding:0px 2px;}
+table.individual.logs{}
