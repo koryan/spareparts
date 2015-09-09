@@ -126,11 +126,11 @@ module.exports.articulsSearch = function(articuls, cb){
 			//console.log(elem.id_nom)
 
 			if(articuls.indexOf(elem.id_nom) !== -1){
-				result.push(elem)
+				result.push(elem)				
+				i++;
 			}	
-			//console.log(elem.id_nom, typeof elem.id_nom)
 			if(i > conf.maxArticulsPerQuery)break;
-			i++;
+			
 		}
 		//console.log()
 		cb(null, result)
