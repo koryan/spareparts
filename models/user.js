@@ -136,7 +136,7 @@ var log = {
 				return;
 			}
 			data.reverse()
-			if(data.length > 50)data = data.slice(0, l);
+			if(data.length > 50)data = data.slice(0, 50);
 			
 			async.each(data, function(item, callback){
 				db.get(conf.riakBuckets.usersLog, item, function(err, result){		
