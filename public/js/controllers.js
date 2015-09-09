@@ -38,7 +38,19 @@ angular.module('myApp.controllers', []).
 			
 		}
 		$scope.sendQuery = function(){
-			alert("In next version")
+			var query = []
+			for(var i in $scope.result){
+				if($scope.result[i].quant > 0){
+					var t = [$scope.result[i].id_nom, $scope.result[i].name_nom, $scope.result[i].quant];
+					if($scope.result[i].quant > $scope.result[i].kol)t.push(1)
+					query.push(t)
+				}
+			}
+			$http.get("/api/sendMail", {query:query, serial:$scope.serial}).success(function(data) {
+				//alert("Заказ отправлен!");
+				//delete $scope.result;
+				console.log(data)
+			});
 		}
 	});		
 

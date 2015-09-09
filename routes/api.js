@@ -154,6 +154,3 @@ exports.articulsSearch = function(req, res, next){
 	})
 }
 
-exports.sendMail = function(req, res, next){
-	res.send({"status":"notReady"});
-}

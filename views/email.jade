@@ -1,0 +1,22 @@
+extends layout
+
+block content	
+	h2 Пользователь userLogin создал заказ
+	h4 Серийный номер serial
+	pre query
+	//
+		table(border=1)
+			thead
+				tr
+					td(colspan=3) Заказанные товары					
+			tbody
+				each line in query
+					tr
+						td= line[0]
+						td= line[1]
+						if(line[3])
+							td(style='color:red')= line[2]
+						else
+							td= line[2]
+
+

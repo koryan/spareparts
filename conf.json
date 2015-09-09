@@ -20,5 +20,8 @@
 		"password":"pass"
 	},
 	"mailAddresess":["koryan@mail.ru","test.ru"],
-	"maxArticulsPerQuery": 100
+	"maxArticulsPerQuery": 100,
+	"mailer":{
+		"from":"no-reply@koryan.ru"
+	}
 }

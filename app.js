@@ -12,6 +12,7 @@ var express = require('express'),
 	userLogger = require('./middleware/userLogger'),
 	multer = require('multer'),	
 	conf = require('./conf.json'),
+	mailer = require('express-mailer'),
 	session = require("express-session");
 
 
@@ -27,11 +28,13 @@ var storage = multer.diskStorage({
 })
 var upload = multer({ storage: storage })
 
+
 /**
  * Configuration
  */
 
 // all environments
+
 app.set('port', conf.applicationPort);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
@@ -54,12 +57,17 @@ app.use(session({
   secret: 'keyboard cat'
 }));
 
-// app.use(function(req, res, next){
-// 	req.riakClient = new Riak.Client(['localhost:8098']);
-// 	next()
-// })
-
-
+mailer.extend(app, {
+  from: 'no-reply@koryan.ru',
+  host: 'smtp.gmail.com', 
+  secureConnection: true, // use SSL 
+  port: 465, // port for secure SMTP 
+  transportMethod: 'SMTP', // default is SMTP. Accepts anything that nodemailer accepts 
+  auth: {
+    user: 'koryan666@gmail.com',
+    pass: 'qaz123qaz'
+  }
+});
 
 var env = process.env.NODE_ENV || 'development';
 
@@ -85,6 +93,7 @@ app.get('/', function(req, res, next){
 			res.redirect("/admin")
 		}else next()
 	}, routes.index);
+
 app.get('/admin', auth.checkAdmin, routes.admin);
 app.get('/admin/logs', auth.checkAdmin, routes.admin);
 app.get('/admin/userslist', auth.checkAdmin, routes.admin);
@@ -117,8 +126,39 @@ app.post('/api/getXmlLastTry', api.getXmlLastTry);
 
 app.post('/api/loadArticuls', [auth.checkUser, upload.single('articuls')], api.processArticuls);
 app.post('/api/articulsSearch', [userLogger.search, auth.checkUser], api.articulsSearch);
-app.post('/api/sendMail', [auth.checkUser, userLogger.send], api.sendMail);
-
+app.post('/api/sendMail', [auth.checkUser, userLogger.send], function (req, res, next) {
+	console.log(req.body.query)
+  res.mailer.send('email', {
+    to: 'koryan@mail.ru', //conf.mailAddresess.join(',') // REQUIRED. This can be a comma delimited string just like a normal email to field.  
+    subject: 'Test Email', // REQUIRED. 
+    otherProperty: {query:req.body.query, serial:req.body.serial, userLogin: req.session.user.login} // All additional properties are also passed to the template as local variables. 
+  }, function (err) {
+    if (err) {
+      // handle error 
+      console.log(err);
+      res.send('There was an error sending the email');
+      return;
+    }
+    res.send("ok");
+  })
+});
+app.get('/api/sendMail', function(req, res){
+	 res.mailer.render('email', {
+	    to: 'koryan@mail.ru', //conf.mailAddresess.join(',') // REQUIRED. This can be a comma delimited string just like a normal email to field.  
+	    subject: 'Test Email', // REQUIRED. 
+	    otherProperty: {query:req.body.query, serial:req.body.serial, userLogin: req.session.user.login} // All additional properties are also passed to the template as local variables. 
+	  }, function (err, msg) {
+	    if (err) {
+	      // handle error 
+	      console.log(err);
+	      res.send('There was an error sending the email');
+	      return;
+	    }
+	    console.log(msg)
+	   	res.render(msg)
+	  })
+	//res.render('email', {userLogin:"uasya", "query":[["83785172","Датчик температуры плиты",1],["83740241","Пластина",1],["83785156","Сборка проводов",2,1]],"serial":"fdssd"})
+})
 
 
 
