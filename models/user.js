@@ -135,23 +135,23 @@ var log = {
 				if(err.notFound){cb(null, []);}else cb(err, data);
 				return;
 			}
-			// if(data.length > 50)data = data.slice(0, l);
-			// console.log("start")
-			// async.each(data, function(item, callback){
-			// 	db.get(conf.riakBuckets.usersLog, item, function(err, result){		
-			// 		if(result.action == "search"){
-			// 			result.time = item;	
-			// 			callback(result);
-			// 			//return;
-			// 		}									
-			// 		callback();
-			// 	});
-			// },
-			// function(result){
-			// 	cb(result)
-
-			// });			
-			cb(null ,"qqqqqqq")
+			data.reverse()
+			if(data.length > 50)data = data.slice(0, l);
+			
+			async.each(data, function(item, callback){
+				db.get(conf.riakBuckets.usersLog, item, function(err, result){		
+					if(result.action == "search"){
+						result.time = item;	
+						callback(result);
+						return;
+					}									
+					callback();
+				});
+			},
+			function(result){
+				cb(null, result)
+			});			
+			
 		})
 	}
 }

@@ -3,8 +3,8 @@
 		<dd>{{summary.usersNum}}</dd>
 	<dt>Последний запрос</dt>
 		<dd>
-			<p><b>Дата</b>{{summary.lastQuery.date}}</p>
-			<p><b>Пользователь</b>{{summary.lastQuery.user}}</p>
+			<p><b>Дата</b>{{summary.lastQuery.time | date:'dd.MM.yy HH:mm:ss'}}</p>
+			<p><b>Пользователь</b>{{summary.lastQuery.userLogin}}</p>
 			<p><b>Ip</b>{{summary.lastQuery.ip}}</p>
 		</dd>	
 	<dt>Адреса доставки заказов</dt>
