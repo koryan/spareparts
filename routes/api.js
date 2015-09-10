@@ -132,13 +132,13 @@ exports.getXmlLastTry = function(req, res, next){
 
 exports.log = {
 	read:function(req, res, next){
-			user.log.read(req.body.userLogin, function(err, data){
+			user.log.read(req.body.userLogin, req.body.page, function(err, data){
 				if(err){return next(err);}
 				res.send(data);
 			})
 		},
 	readAll:function(req, res, next){
-			user.log.readAll(function(err, data){
+			user.log.readAll(req.body.page, function(err, data){
 				if(err){return next(err);}
 				res.send(data);
 			})

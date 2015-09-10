@@ -127,10 +127,24 @@ angular.module('adminApp.controllers', []).
 			$modalInstance.dismiss('cancel');
 		};
 	}).
+	controller('PaCtrl', function ($scope, $http) {
+		$scope.changed = function(p) {
+		    console.log('Page changed to: ' + p);
+		  };
+		  $scope.totalItems = 15;
+		 $scope.currentPage = 3
+	}).
+	
 	controller('LogsCtrl', function ($scope, $http) {
+		$scope.commonCurrentPage = 1;
+		$scope.commonPageChanged = function(page) {
+		    getCommonLogsPage(page)
+		};
+
+		$scope.now = new Date().getTime()
 		var zzz = function(type){
 			setTimeout(function(){
-				jQuery("table.logs."+ type +" tbody td.params a").click(function(el){	
+				jQuery("div.logs."+ type +" tbody td.params a").click(function(el){	
 					if($(el.currentTarget).html() == "^"){
 						$(el.currentTarget).html("v")
 						$(el.currentTarget).next().hide()
@@ -141,15 +155,26 @@ angular.module('adminApp.controllers', []).
 				});	
 			},0) 
 		}
-		$http.post("/api/getLogs/all").success(function(data) {					
-			$scope.commonLogs = data;
-			zzz("common")			
-		});
+		var getCommonLogsPage = function(page){
+			$http.post("/api/getLogs/all", {page:page}).success(function(data) {					
+				$scope.commonLogs = data.data;
+				$scope.usersOverLimit = data.usersOverLimit;
+				$scope.commonTotalItems = data.total;
+				$scope.commonItemsPerPage = data.perPage;
+				zzz("common")			
+			});	
+		}
+		
+		getCommonLogsPage(1)
 		
 		//$scope.getIndividual
-		$scope.getIndividual = function(userLogin){
-			$http.post("/api/getLogs/personal",{userLogin:userLogin}).success(function(data) {				
-				$scope.individualLogs = data;
+		$scope.getIndividual = function(userLogin, page){
+			if(page == 0)page=1
+			jQuery("div.logs.common tbody td.overlimit a:contains('"+userLogin+"')").parent().removeClass("overlimit")
+			$http.post("/api/getLogs/personal",{userLogin:userLogin, page:page}).success(function(data) {				
+				$scope.individualLogs = data.data;
+				$scope.individualTotalItems = data.total;
+				$scope.individualItemsPerPage = data.perPage;
 				zzz("individual")
 			});
 			$scope.individualLogsUserName = userLogin;

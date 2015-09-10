@@ -1,40 +1,49 @@
-<table class='logs common' ng-show="commonLogs">
-	<thead>
-		<tr>
-			<td>Время</td>
-			<td>Действие</td>
-			<td>ip</td>
-			<td>Пользователь</td>
-			<td>Данные</td>
+<div class='logs common' ng-show="commonLogs">
+	<table>
+		<thead>
+			<tr>
+				<td>Время</td>
+				<td>Действие</td>
+				<td>ip</td>
+				<td>Пользователь</td>
+				<td>Данные</td>
 
-		</tr>
-	</thead>
-	<tbody>
-		<tr class='{{log.action}}' ng-repeat="log in commonLogs | orderBy:'-time'">
-			<td>{{log.time | date:'dd.MM.yy HH:mm:ss'}}</td>
-			<td>{{log.action | logType}}</td>
-			<td>{{log.ip}}</td>
-			<td><a ng-click="getIndividual(log.userLogin)">{{log.userLogin}}</td>
-			<td class='params'><a ng-show="log.params.length" >v</a><params>{{log.params}}</params></td>
-		</tr>
-	</tbody>
-</table>
-<table class="logs individual" ng-show="individualLogs">
-	<thead>
-		<tr><td colspan="3">Логи пользователья <b>{{individualLogsUserName}}</b></td></tr>
-		<tr>
-			<td>Время</td>
-			<td>Действие</td>
-			<td>ip</td>
-			<td>Данные</td>
-		</tr>
-	</thead>
-	<tbody>
-		<tr  class='{{log.action}}' ng-repeat="log in individualLogs | orderBy:'-time'">
-			<td>{{log.time | date:'dd.MM.yy HH:mm:ss'}}</td>
-			<td>{{log.action | logType}}</td>
-			<td>{{log.ip}}</td>
-			<td class='params'><a ng-show="log.params.length">v</a><params>{{log.params}}</params></td>
-		</tr>
-	</tbody>
-</table>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class='{{log.action}}' ng-repeat="log in commonLogs | orderBy:'-time'">
+				<td>{{log.time | date:'dd.MM.yy HH:mm:ss'}}</td>
+				<td>{{log.action | logType}}</td>
+				<td>{{log.ip}}</td>
+				<td ng-class='{overlimit:usersOverLimit.indexOf(log.userLogin) !== -1 && ((now - log.time) < 24*60*60*1000)}'><a ng-click="getIndividual(log.userLogin, 0)">{{log.userLogin}}</td>
+				<td class='params'><a ng-show="log.params.length" >v</a><params>{{log.params}}</params></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<pagination rotate="false"  page="commonCurrentPage" max-size="15" on-select-page="commonPageChanged(page)" items-per-page="commonItemsPerPage" direction-links="false" total-items="commonTotalItems"></pagination>
+</div>
+<div class='logs individual' ng-show="individualLogs">
+
+	<table>
+		<thead>
+			<tr><td colspan="3">Логи пользователья <b>{{individualLogsUserName}}</b></td></tr>
+			<tr>
+				<td>Время</td>
+				<td>Действие</td>
+				<td>ip</td>
+				<td>Данные</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr  class='{{log.action}}' ng-repeat="log in individualLogs | orderBy:'-time'">
+				<td>{{log.time | date:'dd.MM.yy HH:mm:ss'}}</td>
+				<td>{{log.action | logType}}</td>
+				<td>{{log.ip}}</td>
+				<td class='params'><a ng-show="log.params.length">v</a><params>{{log.params}}</params></td>
+			</tr>
+		</tbody>
+	</table>
+	<pagination page="individualCurrentPage" on-select-page="getIndividual(individualLogsUserName, page)" items-per-page="individualItemsPerPage" max-size="8" direction-links="false" rotate="false" total-items="individualTotalItems"></pagination>
+
+</div>

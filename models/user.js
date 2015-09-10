@@ -96,37 +96,58 @@ var log = {
 		}, cb)		
 		
 	},
-	read: function(userLogin, cb){
-		var l = 100;
+	read: function(userLogin, page, cb){
 		db.get(conf.riakBuckets.personalUsersLog, userLogin, function(err, data, meta){	
-			console.log(meta)
+
 			if(err){
 				if(err.notFound){cb(null, []);}else cb(err, data);
 				return;
 			}
-			if(data.length > l)data = data.slice(0, l);
+			var total = data.length
+			data = data.reverse();
+			console.log("page", page)
+			console.log(data)
+			data = data.slice((page-1)*conf.individualLogsPerPage, page*conf.individualLogsPerPage);
+			console.log("22222222", data)
+
 			async.map(data, function(item, callback){
 				db.get(conf.riakBuckets.usersLog, item, function(err, result){
 					result.time = item;
 					callback(err, result)
 				});
-			},cb);			
+			},function(err, dataX){
+				cb(err, {data:dataX, total:total, perPage:conf.individualLogsPerPage})
+			});			
 		})
 	},
-	readAll: function(cb){
-		var l = 300;
+	readAll: function(page, cb){
 		db.get(conf.riakBuckets.usersLog, 'keys', function(err, data){	
 			if(err){
 				if(err.notFound){cb(null, []);}else cb(err, data);
 				return;
 			}
-			if(data.length > l)data = data.slice(0, l);
+			var total = data.length
+			data = data.reverse();
+			data = data.slice((page-1)*conf.commonLogsPerPage, page*conf.commonLogsPerPage);
+			var users = {};
 			async.map(data, function(item, callback){
 				db.get(conf.riakBuckets.usersLog, item, function(err, result){
 					result.time = item;
+					if((new Date().getTime() - result.time < 24*60*60*1000) && result.action=="search"){
+						if(!users[result.userLogin])users[result.userLogin] = 0;
+						users[result.userLogin]++;
+					}
 					callback(err, result)
 				});
-			},cb);			
+			},function(err, data){
+				var usersOverLimit = [];
+				for(var userLogin in users){
+					//userDaySearchLimit
+					if(users[userLogin] > conf.userDaySearchLimit)usersOverLimit.push(userLogin)
+				}
+
+				cb(err, {data:data, usersOverLimit: usersOverLimit, total:total, perPage:conf.commonLogsPerPage})
+			});			
 		})
 	},
 	getLastSearch: function(cb){

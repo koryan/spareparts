@@ -87,12 +87,18 @@ loader>img{display:block;top:45%;left:45%;position:absolute;z-index: 1002;}
 
 .xmlLoad .btn{margin-top:5px !important;}
 
-table.logs{border:1px solid gray;border-collapse: collapse;display: inline-block;vertical-align: top}
-table.logs td{border:1px solid gray;padding:0px 4px;}
-table.logs thead{font-weight:bold;text-align:center;}
-table.logs tbody{text-align: right}
-table.logs tbody tr.search{background-color: rgba(0,255,0,0.1)}
-table.common.logs{margin-right:20px;}
-table.logs tbody a{cursor:pointer;}
-table.logs tbody params{color:gray;font-size:80%;max-width:400px;display: block; word-wrap: break-word;border:1px solid gray;background-color: white;margin-bottom:10px;display: none;padding:0px 2px;}
+div.logs{display: inline-block;vertical-align: top}
+div.logs table{border:1px solid gray;border-collapse: collapse;}
+div.logs table td{border:1px solid gray;padding:0px 4px;}
+div.logs table thead{font-weight:bold;text-align:center;}
+div.logs table tbody{text-align: right}
+div.logs table tbody tr.login{background-color: rgba(0,0,255,0.1)}
+div.logs table tbody tr.search{background-color: rgba(0,255,0,0.1)}
+div.logs table tbody tr.send{background-color: rgba(255,0,0,0.1)}
+div.logs table td.overlimit a{font-weight:bold;color:red !important;}
+div.common.logs{margin-right:20px;}
+div.logs table tbody a{cursor:pointer;}
+div.logs table tbody params{color:gray;font-size:80%;max-width:400px;display: block; word-wrap: break-word;border:1px solid gray;background-color: white;margin-bottom:10px;display: none;padding:0px 2px;}
 table.individual.logs{}
+
+.pagination.li{cursor:pointer;}

@@ -23,5 +23,9 @@
 	"maxArticulsPerQuery": 100,
 	"mailer":{
 		"from":"no-reply@koryan.ru"
-	}
+	},
+	"userDaySearchLimit":10,
+	"commonLogsPerPage":40,
+	"individualLogsPerPage":20
+
 }
