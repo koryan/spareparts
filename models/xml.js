@@ -31,7 +31,6 @@ var writeProcessResult = function(result, cb){
 }
 
 module.exports.process = function (cb) {
-	console.log("alive", conf.uploadFolder+"/"+conf.xmlFileName)	
 	fs.readFile(conf.uploadFolder+"/"+conf.xmlFileName, function (err, data) {		
 		var json = {}
 		if (err){cb(err);return;}

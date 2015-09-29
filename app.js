@@ -122,6 +122,8 @@ app.post('/api/getLogs/all', auth.checkAdmin, api.log.readAll);
 app.post('/api/getLogs/personal', auth.checkAdmin, api.log.read);
 app.post('/api/getXmlLastTry', api.getXmlLastTry);
 
+app.get('/processXML', api.processXML);
+
 
 
 app.post('/api/loadArticuls', [auth.checkUser, upload.single('articuls')], api.processArticuls);
