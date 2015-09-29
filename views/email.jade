@@ -1,11 +1,12 @@
-extends layout
+html
+	head 
+		meta(charset='utf8')
 
-block content	
-	h2 Пользователь userLogin создал заказ
-	h4 Серийный номер serial
-	pre query
-	//
-		table(border=1)
+	body
+		h2 Пользователь #{userLogin} создал заказ
+		h4 Серийный номер #{serial}
+		
+		table(border=1, cellpadding=10)
 			thead
 				tr
 					td(colspan=3) Заказанные товары					

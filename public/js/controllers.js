@@ -46,10 +46,15 @@ angular.module('myApp.controllers', []).
 					query.push(t)
 				}
 			}
-			$http.get("/api/sendMail", {query:query, serial:$scope.serial}).success(function(data) {
-				//alert("Заказ отправлен!");
-				//delete $scope.result;
-				console.log(data)
+			$http.post("/api/sendMail", {query:query, serial:$scope.serial}).success(function(data) {
+				if(data == "ok"){
+					alert("Заказ отправлен!");
+					delete $scope.result;	
+				}else{					
+					alert("Ошибка отправки письма")
+				}
+				
+				
 			});
 		}
 	});		

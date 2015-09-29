@@ -19,10 +19,13 @@
 		"login":"admin",
 		"password":"pass"
 	},
-	"mailAddresess":["koryan@mail.ru","test.ru"],
 	"maxArticulsPerQuery": 100,
 	"mailer":{
-		"from":"no-reply@koryan.ru"
+		"addresses":["koryan@mail.ru","koryan@live.ru"],
+		"from":"no-reply@koryan.ru",		
+		"subject":"Новый заказ",
+		"user":"koryan666@gmail.com",
+		"password":"qaz123qaz"
 	},
 	"userDaySearchLimit":10,
 	"commonLogsPerPage":40,

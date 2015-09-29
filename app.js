@@ -58,14 +58,14 @@ app.use(session({
 }));
 
 mailer.extend(app, {
-  from: 'no-reply@koryan.ru',
+  from: conf.mailer.from,
   host: 'smtp.gmail.com', 
   secureConnection: true, // use SSL 
   port: 465, // port for secure SMTP 
   transportMethod: 'SMTP', // default is SMTP. Accepts anything that nodemailer accepts 
   auth: {
-    user: 'koryan666@gmail.com',
-    pass: 'qaz123qaz'
+    user: conf.mailer.user,
+    pass: conf.mailer.password
   }
 });
 
@@ -127,38 +127,23 @@ app.post('/api/getXmlLastTry', api.getXmlLastTry);
 app.post('/api/loadArticuls', [auth.checkUser, upload.single('articuls')], api.processArticuls);
 app.post('/api/articulsSearch', [userLogger.search, auth.checkUser], api.articulsSearch);
 app.post('/api/sendMail', [auth.checkUser, userLogger.send], function (req, res, next) {
-	console.log(req.body.query)
   res.mailer.send('email', {
-    to: 'koryan@mail.ru', //conf.mailAddresess.join(',') // REQUIRED. This can be a comma delimited string just like a normal email to field.  
-    subject: 'Test Email', // REQUIRED. 
-    otherProperty: {query:req.body.query, serial:req.body.serial, userLogin: req.session.user.login} // All additional properties are also passed to the template as local variables. 
+    to: conf.mailer.addresses.join(','), // REQUIRED. This can be a comma delimited string just like a normal email to field.  
+    subject: conf.mailer.subject, // REQUIRED. 
+    otherProperty: {query:req.body.query, serial:req.body.serial, userLogin: req.session.user.login}, // All additional properties are also passed to the template as local variables. 
+    query:req.body.query,
+    serial:req.body.serial,
+    userLogin: req.session.user.login
   }, function (err) {
     if (err) {
       // handle error 
-      console.log(err);
+      console.log("Error!", err);
       res.send('There was an error sending the email');
       return;
     }
     res.send("ok");
   })
 });
-app.get('/api/sendMail', function(req, res){
-	 res.mailer.render('email', {
-	    to: 'koryan@mail.ru', //conf.mailAddresess.join(',') // REQUIRED. This can be a comma delimited string just like a normal email to field.  
-	    subject: 'Test Email', // REQUIRED. 
-	    otherProperty: {query:req.body.query, serial:req.body.serial, userLogin: req.session.user.login} // All additional properties are also passed to the template as local variables. 
-	  }, function (err, msg) {
-	    if (err) {
-	      // handle error 
-	      console.log(err);
-	      res.send('There was an error sending the email');
-	      return;
-	    }
-	    console.log(msg)
-	   	res.render(msg)
-	  })
-	//res.render('email', {userLogin:"uasya", "query":[["83785172","Датчик температуры плиты",1],["83740241","Пластина",1],["83785156","Сборка проводов",2,1]],"serial":"fdssd"})
-})
 
 
 
