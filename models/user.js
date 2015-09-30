@@ -31,7 +31,7 @@ module.exports.auth = function(login, password, ip, cb){
 				cb(null, user)
 			    			
 			};
-			log.write(login, {action:"youShalNotPass", ip: ip, params{reason: "wrongPass", 'try': password}}, function(){})
+			log.write(login, {action:"youShalNotPass", ip: ip, params:{reason: "wrongPass", 'try': password}}, function(){})
 			cb("wrongPass")
 		})
 	} 
