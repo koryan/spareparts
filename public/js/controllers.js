@@ -10,8 +10,9 @@ angular.module('myApp.controllers', []).
 			if(!articulsArr || articulsArr.length == 0)return false;
 			angular.element("loader").show();
 			if(!Array.isArray(articulsArr)){
-				articulsArr = articulsArr.split("\n")
+				articulsArr = articulsArr.replace(/\s/g, '').split("\n")
 			}
+			if(articulsArr.length == 0)return false;
 			$http.post("/api/articulsSearch", {articuls: articulsArr}).success(function(data) {
 				angular.element("loader").hide();
 				if(!data || data == "" || data.length == 0) alert("Ничего не найдено :(")
