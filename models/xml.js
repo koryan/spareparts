@@ -124,7 +124,7 @@ module.exports.articulsSearch = function(articuls, cb){
 			var elem = json.Data.str[j];	
 			//console.log(elem.id_nom)
 
-			if(articuls.indexOf(elem.id_nom) !== -1){
+			if(elem.id_nom !== "" && articuls.indexOf(elem.id_nom) !== -1){
 				result.push(elem)				
 				i++;
 			}	
