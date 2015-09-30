@@ -12,8 +12,16 @@ module.exports.auth = function(login, password, ip, cb){
 		get(login, function(err, user){
 			if(err){cb(err);return;}
 			if(!user){cb("notFound");return;}
-			if(conf.checkIpOnLogin && user.ip.indexOf(ip) === -1){cb("wrongIp");return;}
-			if(user.isBlocked){cb("blocked");return;}
+			if(conf.checkIpOnLogin && user.ip.indexOf(ip) === -1){
+				log.write(login, {action:"youShalNotPass", ip: ip, reason: "wrongIp"}, function(){})
+				cb("wrongIp");
+				return;
+			}
+			if(user.isBlocked){
+				log.write(login, {action:"youShalNotPass", ip: ip, reason: "userBlocked"}, function(){})
+				cb("blocked");
+				return;
+			}
 			if(crypto.createHash('md5').update(password).digest('hex') == user.password){
 				user.lastLogin = new Date().getTime();
 				//log(user.login, {action:"login"}, function() {})
@@ -23,6 +31,7 @@ module.exports.auth = function(login, password, ip, cb){
 				cb(null, user)
 			    			
 			};
+			log.write(login, {action:"youShalNotPass", ip: ip, reason: "wrongPass"}, function(){})
 			cb("wrongPass")
 		})
 	} 
