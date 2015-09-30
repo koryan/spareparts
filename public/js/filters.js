@@ -27,6 +27,9 @@ angular.module('adminApp.filters', []).
         case "login":
           res = "вход";
           break;
+        case "youShallNotPass":
+          res = "заблокированная попытка входа";
+          break;
       }
       return res;
     };

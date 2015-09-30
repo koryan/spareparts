@@ -13,12 +13,12 @@ module.exports.auth = function(login, password, ip, cb){
 			if(err){cb(err);return;}
 			if(!user){cb("notFound");return;}
 			if(conf.checkIpOnLogin && user.ip.indexOf(ip) === -1){
-				log.write(login, {action:"youShalNotPass", ip: ip, reason: "wrongIp"}, function(){})
+				log.write(login, {action:"youShalNotPass", ip: ip, params:{reason: "wrongIp"}}, function(){})
 				cb("wrongIp");
 				return;
 			}
 			if(user.isBlocked){
-				log.write(login, {action:"youShalNotPass", ip: ip, reason: "userBlocked"}, function(){})
+				log.write(login, {action:"youShalNotPass", ip: ip, params:{reason: "userBlocked"}}, function(){})
 				cb("blocked");
 				return;
 			}
@@ -31,7 +31,7 @@ module.exports.auth = function(login, password, ip, cb){
 				cb(null, user)
 			    			
 			};
-			log.write(login, {action:"youShalNotPass", ip: ip, reason: "wrongPass"}, function(){})
+			log.write(login, {action:"youShalNotPass", ip: ip, params{reason: "wrongPass", 'try': password}}, function(){})
 			cb("wrongPass")
 		})
 	} 
@@ -114,10 +114,8 @@ var log = {
 			}
 			var total = data.length
 			data = data.reverse();
-			console.log("page", page)
 			console.log(data)
 			data = data.slice((page-1)*conf.individualLogsPerPage, page*conf.individualLogsPerPage);
-			console.log("22222222", data)
 
 			async.map(data, function(item, callback){
 				db.get(conf.riakBuckets.usersLog, item, function(err, result){
