@@ -113,9 +113,7 @@ module.exports.articulsSearch = function(articuls, cb){
 		//   price: 0,
 		//   kol: 0 }
 		//console.log(result)
-		console.log("typeof data", typeof data)
 		var json = JSON.parse(data);
-		console.log("typeof parsed data", typeof json)
 		var i =0;
 		var result = [];
 		//console.log(Object.keys(json.Data.str))

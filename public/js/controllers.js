@@ -7,12 +7,13 @@ angular.module('myApp.controllers', []).
 		$scope.articulsArr = [];
 
 		$scope.articulsSearch = function(articulsArr){
-			if(!articulsArr || articulsArr.length == 0)return false;
+			if(!articulsArr || articulsArr == "" || articulsArr.length == 0)return false;
 			angular.element("loader").show();
 			if(!Array.isArray(articulsArr)){
-				articulsArr = articulsArr.replace(/\s/g, '').split("\n")
+				articulsArr = articulsArr.split("\n")
 			}
 			if(articulsArr.length == 0)return false;
+			.
 			$http.post("/api/articulsSearch", {articuls: articulsArr}).success(function(data) {
 				angular.element("loader").hide();
 				if(!data || data == "" || data.length == 0) alert("Ничего не найдено :(")
