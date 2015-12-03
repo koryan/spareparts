@@ -13,7 +13,7 @@ angular.module('myApp.controllers', []).
 				articulsArr = articulsArr.split("\n")
 			}
 			if(articulsArr.length == 0)return false;
-			.
+			
 			$http.post("/api/articulsSearch", {articuls: articulsArr}).success(function(data) {
 				angular.element("loader").hide();
 				if(!data || data == "" || data.length == 0) alert("Ничего не найдено :(")
