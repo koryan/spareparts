@@ -123,6 +123,7 @@ app.post('/api/getLogs/personal', auth.checkAdmin, api.log.read);
 app.post('/api/getXmlLastTry', api.getXmlLastTry);
 
 app.get('/processXML', api.processXML);
+app.get('/plungeXML', upload.single('xml'), api.processXML);
 
 
 
